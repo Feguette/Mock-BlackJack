@@ -1,5 +1,5 @@
 /**
- * Write a description of class Cards here.
+ * Write a description of class Card here.
  * 
  * @author (your name) 
  * @version (a version number or a date)
@@ -8,23 +8,29 @@ import java.util.ArrayList;
 import java.util.Random;
 public class Deck
 {
-    private ArrayList<Cards> deck = new ArrayList();
+    private ArrayList<Card> deck = new ArrayList();
     //private String[] suits = {"S", "C", "D", "H"};
     private Random generator = new Random();
-    private int totalCards = 52;
-    private Cards current;
+    //private int totalCard = 52;
+    private Card current;
     public Deck()
     {
         for (int i = 0; i < 4; i++)
         {
             for (int j = 1; j <= 13; j++)
             {
-                deck.add(new Cards(j, i));
+                deck.add(new Card(j, i));
             }
         }
     }
     
-    public Cards draw()
+    public ArrayList<Card> getDeck()
+    {
+        return deck;
+    }
+    
+    
+    public Card draw()
     {
         if (deck.size() == 0)
         {

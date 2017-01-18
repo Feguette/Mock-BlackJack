@@ -8,9 +8,8 @@
 import java.util.ArrayList;
 public class Dealer extends Player
 {
-    private ArrayList<Cards> godHand;
-    public Dealer(Cards c)
+    public Dealer()
     {
-        godHand.add(c);
+        super();
     }
 }
