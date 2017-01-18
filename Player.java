@@ -1,4 +1,3 @@
-
 /**
  * Write a description of class Player here.
  * 
@@ -11,11 +10,17 @@ public class Player
     private ArrayList<Cards> hand;
     public Player(Cards c)
     {
+        
         hand.add(c);
     }
     
     public void addCard(Cards c)
     {
         hand.add(c);
+    }
+    
+    public Cards getCards(int index)
+    {
+        return hand.get(index);
     }
 }
