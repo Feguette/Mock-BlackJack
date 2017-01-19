@@ -33,10 +33,12 @@ public class Player
     {
         for (int i = 0; i < deck.size(); i++)
         {
-            Card current = getCard(i);
+            Card current = deck.get(i);
             System.out.print(current.getValue());
             System.out.print(suits[current.getSuit()]);
-            System.out.println(", ");
+            if (deck.size() > i + 1)
+            System.out.print(", ");
         }
+        System.out.println("");
     }
 }
