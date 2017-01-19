@@ -19,24 +19,27 @@ public class Player
         return hand;
     }
     
-    public void addCard(Card c)
+    public void addCard(Card c) //double down + hit
     {
         hand.add(c);
     }
     
-    public Card getCard(int index)
+    public int totalHand(Player a) //unfinished
     {
-        return hand.get(index);
+        for (int i = 0; i < getHand().size(); i++)
+        {
+            
+        }
     }
     
-    public void display(ArrayList<Card> deck)
+    public void display(ArrayList<Card> decks)
     {
-        for (int i = 0; i < deck.size(); i++)
+        for (int i = 0; i < decks.size(); i++)
         {
-            Card current = deck.get(i);
+            Card current = decks.get(i);
             System.out.print(current.getValue());
             System.out.print(suits[current.getSuit()]);
-            if (deck.size() > i + 1)
+            if (decks.size() > i + 1)
             System.out.print(", ");
         }
         System.out.println("");
