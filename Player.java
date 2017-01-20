@@ -58,6 +58,16 @@ public class Player
         return (handValue>21);
     }
     
+    public boolean check21()
+    {
+        return (totalHand() == 21);
+    }
+    
+    public int getCardNum()
+    {
+        return hand.size();
+    }
+    
     public void display(ArrayList<Card> decks)
     {
         for (int i = 0; i < decks.size(); i++)

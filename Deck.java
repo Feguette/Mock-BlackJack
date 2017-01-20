@@ -20,7 +20,7 @@ public class Deck
         {
             for (int j = 1; j <= 13; j++)
             {
-                value = j
+                value = j;
                 if (j == 1)
                     value = 11;
                 if (j >= 11)
