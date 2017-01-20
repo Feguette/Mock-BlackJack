@@ -24,12 +24,38 @@ public class Player
         hand.add(c);
     }
     
-    public int totalHand(Player a) //unfinished
+    public int totalHand(Player a)
     {
+        int total = 0;
+        int count = 0;
+        int current;
         for (int i = 0; i < getHand().size(); i++)
         {
-            
+            current = hand.get(i).getValue();
+            if (current == 11)
+            {
+                current = 0;
+                count++;
+            }
+            total = total + current;
         }
+        for (int i = 0; i < count; i++)
+        {
+            if (total + 11 > 21)
+            {
+                total++;
+            }
+            else
+            {
+                total = total + 11;
+            }
+        }
+        return total;
+    }
+    
+    public boolean checkLoss(int handValue)
+    {
+        return (handValue>21);
     }
     
     public void display(ArrayList<Card> decks)
