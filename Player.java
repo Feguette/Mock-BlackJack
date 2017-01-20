@@ -24,7 +24,7 @@ public class Player
         hand.add(c);
     }
     
-    public int totalHand(Player a)
+    public int totalHand()
     {
         int total = 0;
         int count = 0;
