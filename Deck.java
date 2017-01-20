@@ -15,11 +15,17 @@ public class Deck
     private Card current;
     public Deck()
     {
+        int value;
         for (int i = 0; i < 4; i++)
         {
             for (int j = 1; j <= 13; j++)
             {
-                deck.add(new Card(j, i));
+                value = j
+                if (j == 1)
+                    value = 11;
+                if (j >= 11)
+                    value = 10;
+                deck.add(new Card(j, i, value));
             }
         }
     }
