@@ -7,11 +7,15 @@
 public class Card
 {
     private int value;
+    private int number;
     private int suit;
-    public Card(int val, int s)
+    //private image;
+    public Card(int n, int s, int v)
     {
-        value = val;
+        number = n;
         suit = s;
+        value = v;
+        //image = pict
     }
     
     public int getSuit()
@@ -22,5 +26,10 @@ public class Card
     public int getValue()
     {
         return value;
+    }
+    
+    public int getNumber()
+    {
+        return number;
     }
 }

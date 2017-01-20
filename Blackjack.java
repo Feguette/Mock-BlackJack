@@ -1,4 +1,3 @@
-
 /**
  * Write a description of class Blackjack here.
  * 
@@ -13,7 +12,7 @@ public class Blackjack
         Player a = new Player();
         a.addCard(d.draw());
         a.addCard(d.draw());
-        //a.display(d.getDeck());
+        a.display(d.getDeck());
         a.display(a.getHand());
     }
 }

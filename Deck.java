@@ -29,7 +29,6 @@ public class Deck
         return deck;
     }
     
-    
     public Card draw()
     {
         if (deck.size() == 0)
