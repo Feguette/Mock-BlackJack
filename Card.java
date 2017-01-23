@@ -4,12 +4,15 @@
  * @author (your name) 
  * @version (a version number or a date)
  */
+import javax.imageio.ImageIO;
+import java.io.File;
+import java.awt.image.BufferedImage;
 public class Card
 {
     private int value;
     private int number;
     private int suit;
-    //private image;
+    private BufferedImage image;
     public Card(int n, int s, int v)
     {
         number = n;
@@ -31,5 +34,10 @@ public class Card
     public int getNumber()
     {
         return number;
+    }
+    
+    public BufferedImage getImage()
+    {
+        return image;
     }
 }

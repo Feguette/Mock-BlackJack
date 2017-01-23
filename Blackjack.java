@@ -4,15 +4,10 @@
  * @author (your name) 
  * @version (a version number or a date)
  */
+import java.util.Scanner;
 public class Blackjack
 {
-    public static void main (String args[])
-    {
-        Deck d = new Deck();
-        Player a = new Player();
-        a.addCard(d.draw());
-        a.addCard(d.draw());
-        a.display(d.getDeck());
-        a.display(a.getHand());
-    }
+    
+    
+    
 }
