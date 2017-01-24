@@ -1,11 +1,11 @@
-
 /**
- * Write a description of class Gameplay here.
+ * Write a description of class Blackjack here.
  * 
  * @author (your name) 
  * @version (a version number or a date)
  */
 import java.awt.*;
+import java.awt.event.*;
 import javax.swing.*;
 import java.util.ArrayList;
 import java.util.Random;
@@ -13,86 +13,40 @@ import javax.imageio.ImageIO;
 import java.io.File;
 import java.awt.image.BufferedImage;
 import java.util.*;
-public class Gameplay //extends JPanel
+import java.util.Scanner;
+public class Blackjack extends JPanel
 {
-    public static void main (String args[])
+    private int x = 0;
+    private BufferedImage dotjpeg;
+    private String[] suits = {"SPADE", "CLUB", "DIAMOND", "HEART"};
+    public static void main(String []args)
     {
-        Deck d = new Deck();
-        Player a = new Player();
+        Gameplay #GamePlay = new GamePlay();
+        JFrame window = new JFrame("Test");
+        frame.setSize(700, 700);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        JButton clickHit = new JButton("Hit");
+        frame.add(clickHit);
         
-        boolean opCont = true;
-        a.addCard(d.draw());
-        a.addCard(d.draw());
-        a.display(d.getDeck());
-        a.display(a.getHand());
-        int choice;
-        Scanner in = new Scanner(System.in);
-        gameLoop:while (opCont)
+        class HitListener implements ActionListener
         {
-            playerLoop:while (p1)
+            public void actionPerformed(ActionEvent event)
             {
-                System.out.println("1. Stay");
-                System.out.println("2. Hit");
-                //System.out.println("3. Double Down");
-                System.out.println("4. Split");
-                choice = -1;
-                choice = in.nextInt();
-                if (choice == 0)
-                {
-                    break gameLoop;
-                }
-                
-                if (choice == 1)
-                {
-                    break playerLoop;
-                }
-                
-                if (choice == 2)
-                {
-                    a.addCard(d.draw);
-                    p1 = !a.checkLoss();
-                }
-                
-                if (choice == 3)
-                {
-                    a.addCard(d.draw);
-                    break playerLoop;
-                }
-                
-                if (choice == 4)
-                {
-                    
-                }
-            }
-            
-            dealerLoop:while (d1)
-            {
-                if ($player.checkLoss())
-                {
-                    System.out.println("You Lose");
-                    break dealerLoop;
-                }
-                else
-                {
-                    while ($dealer.getTotal() < 17)
-                    {
-                        $dealer.addCard($deck.draw);
-                    }
-                    if ($dealer.getLoss() == true)
-                    {
-                        System.out.println("You win");
-                        break dealer;
-                    }
-                    else
-                    {
-                        if ($dealer.getTotal() < $player.getTotal())
-                        {
-                            
-                        }
-                    }
-                }
+                #player.addCard(#deck.draw());
+                g2.drawImage(#player.getHand.get(#no).getImage())
             }
         }
+        
+        ActionListener hitListener = new HitButtonListener();
+        clickHit.addActionListener(hitListener);
+        
     }
-}   
     
+    public paintComponent(Graphics g2)
+    {
+        x = x + 100;
+        g2.drawImage(//image, x, 200, null);
+    }
+    
+    
+}
