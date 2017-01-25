@@ -13,12 +13,12 @@ public class Card
     private int number;
     private int suit;
     private BufferedImage image;
-    public Card(int n, int s, int v)
+    public Card(int n, int s, int v, BufferedImage pict)
     {
         number = n;
         suit = s;
         value = v;
-        //image = pict
+        image = pict;
     }
     
     public int getSuit()

@@ -7,68 +7,20 @@
 import java.util.ArrayList;
 public class Player
 {
-    private ArrayList<Card> hand;
+    private ArrayList<Hand> hand;
     private String[] suits = {"S", "C", "D", "H"};
     public Player()
     {
-        hand = new ArrayList<Card>();
-    }
-    
-    public ArrayList<Card> getHand()
-    {
-        return hand;
-    }
-    
-    public void addCard(Card c) //double down + hit
-    {
-        hand.add(c);
-    }
-    
-    public int totalHand()
-    {
-        int total = 0;
-        int count = 0;
-        int current;
-        for (int i = 0; i < getHand().size(); i++)
-        {
-            current = hand.get(i).getValue();
-            if (current == 11)
-            {
-                current = 0;
-                count++;
-            }
-            total = total + current;
-        }
-        for (int i = 0; i < count; i++)
-        {
-            if (total + 11 > 21)
-            {
-                total++;
-            }
-            else
-            {
-                total = total + 11;
-            }
-        }
-        return total;
+        hand = new ArrayList<Hand>();
+        
     }
     
     public boolean checkLoss(int handValue)
     {
-        return (handValue>21);
+        return (handValue > 21);
     }
     
-    public boolean check21()
-    {
-        return (totalHand() == 21);
-    }
-    
-    public int getCardNum()
-    {
-        return hand.size();
-    }
-    
-    public void display(ArrayList<Card> decks)
+    /*public void display(ArrayList<Card> decks)
     {
         for (int i = 0; i < decks.size(); i++)
         {
@@ -79,5 +31,5 @@ public class Player
             System.out.print(", ");
         }
         System.out.println("");
-    }
+    }*/
 }

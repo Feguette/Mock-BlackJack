@@ -12,14 +12,12 @@ import java.awt.image.BufferedImage;
 public class Deck
 {
     private ArrayList<Card> deck = new ArrayList();
-    private String[] suits = {"S", "C", "D", "H"};
     private Random generator = new Random();
-    private int totalCard = 52;
-    private Card current;
-    private BufferedImage image;
     public Deck()
     {
-        String[] suit = {""};
+        String[] suits = {"S", "C", "D", "H"};
+        BufferedImage image = null;
+        Card current;
         int value;
         for (int i = 0; i < 4; i++)
         {
@@ -34,10 +32,13 @@ public class Deck
                     type = "Q";
                 if (j == 13)
                     type = "K";
-                    try{
-                image = ImageIO.read(new File(type + "_" + suit[i] + ".jpg"));}
-                catch (Exception e){
-            }
+                try {
+                    image = ImageIO.read(new File(type + "_" + suits[i] + ".jpg"));
+                }
+                catch (Exception e)
+                {
+                    
+                }
                 value = j;
                 if (j == 1)
                     value = 11;
@@ -60,7 +61,7 @@ public class Deck
             return null;
         }
         int index = generator.nextInt(deck.size());
-        current = deck.get(index);
+        Card current = deck.get(index);
         deck.remove(index);
         return current;
     }
