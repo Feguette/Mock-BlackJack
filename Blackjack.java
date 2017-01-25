@@ -16,12 +16,14 @@ import java.util.*;
 import java.util.Scanner;
 public class Blackjack extends JPanel
 {
+    private Player a = new Player();
+    private Deck d = new Deck();    
     private int x = 0;
     private BufferedImage dotjpeg;
     private String[] suits = {"SPADE", "CLUB", "DIAMOND", "HEART"};
     public static void main(String []args)
     {
-        Gameplay #GamePlay = new GamePlay();
+        Gameplay g = new Gameplay();
         JFrame window = new JFrame("Test");
         frame.setSize(700, 700);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -32,20 +34,62 @@ public class Blackjack extends JPanel
         {
             public void actionPerformed(ActionEvent event)
             {
-                #player.addCard(#deck.draw());
-                g2.drawImage(#player.getHand.get(#no).getImage())
+                a.addCard(d.draw());
+                for (int i = 0; i < a.getHand().size(); i++)
+                {
+                g2.drawImage(a.getHand.get(i).getImage());
+                }
+                repaint();
             }
         }
         
         ActionListener hitListener = new HitButtonListener();
         clickHit.addActionListener(hitListener);
         
+        
+        class StayListener implements ActionListener
+        {
+            public void actionPerformed(ActionEvent event)
+            {
+                
+            }
+        }
+        
+        ActionListener stayListener = new StayButtonListener();
+        clickHit.addActionListener(stayListener);
+        
+        
+        class DoubleListener implements ActionListener
+        {
+            public void actionPerformed(ActionEvent event)
+            {
+                
+            }
+        }
+        
+        ActionListener doubleListener = new DoubleButtonListener();
+        clickHit.addActionListener(doubleListener);
+        
+        
+        class SplitListener implements ActionListener
+        {
+            public void actionPerformed(ActionEvent event)
+            {
+                
+            }
+        }
+        
+        ActionListener splitListener = new SplitButtonListener();
+        clickHit.addActionListener(splitListener);
     }
     
-    public paintComponent(Graphics g2)
+    public void paintComponent(Graphics g2)
     {
+        for (int i = 0; i < a.getHand.size(); i++)
+        {
         x = x + 100;
-        g2.drawImage(//image, x, 200, null);
+        g2.drawImage(a.getHand().get(i).getImage(), x, 200, null);
+        }
     }
     
     
