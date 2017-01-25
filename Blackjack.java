@@ -15,19 +15,20 @@ import java.awt.image.BufferedImage;
 import java.util.*;
 import java.util.Scanner;
 public class Blackjack extends JPanel
-{
-    private Player a = new Player();
-    private Deck d = new Deck();    
+{   
     private int x = 0;
-    private BufferedImage dotjpeg;
-    private String[] suits = {"SPADE", "CLUB", "DIAMOND", "HEART"};
+    private static Player a = new Player();
+    private static Deck d = new Deck();
     public static void main(String []args)
     {
         Gameplay g = new Gameplay();
-        JFrame window = new JFrame("Test");
+        JFrame frame = new JFrame("Test");
         frame.setSize(700, 700);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         JButton clickHit = new JButton("Hit");
+        //Player a = new Player();
+        //Deck d = new Deck();
+        Blackjack bj = new Blackjack();
         frame.add(clickHit);
         
         class HitListener implements ActionListener
@@ -35,15 +36,11 @@ public class Blackjack extends JPanel
             public void actionPerformed(ActionEvent event)
             {
                 a.addCard(d.draw());
-                for (int i = 0; i < a.getHand().size(); i++)
-                {
-                g2.drawImage(a.getHand.get(i).getImage());
-                }
-                repaint();
+                bj.repaint();
             }
         }
         
-        ActionListener hitListener = new HitButtonListener();
+        ActionListener hitListener = new HitListener();
         clickHit.addActionListener(hitListener);
         
         
@@ -55,7 +52,7 @@ public class Blackjack extends JPanel
             }
         }
         
-        ActionListener stayListener = new StayButtonListener();
+        ActionListener stayListener = new StayListener();
         clickHit.addActionListener(stayListener);
         
         
@@ -63,11 +60,12 @@ public class Blackjack extends JPanel
         {
             public void actionPerformed(ActionEvent event)
             {
-                
+                a.addCard(d.draw());
+                bj.repaint();
             }
         }
         
-        ActionListener doubleListener = new DoubleButtonListener();
+        ActionListener doubleListener = new DoubleListener();
         clickHit.addActionListener(doubleListener);
         
         
@@ -79,16 +77,16 @@ public class Blackjack extends JPanel
             }
         }
         
-        ActionListener splitListener = new SplitButtonListener();
+        ActionListener splitListener = new SplitListener();
         clickHit.addActionListener(splitListener);
     }
     
     public void paintComponent(Graphics g2)
     {
-        for (int i = 0; i < a.getHand.size(); i++)
+        for (int i = 0; i < a.getHand().size(); i++)
         {
-        x = x + 100;
-        g2.drawImage(a.getHand().get(i).getImage(), x, 200, null);
+            x = x + 100;
+            g2.drawImage(a.getHand().get(i).getImage(), x, 200, null);
         }
     }
     
