@@ -9,9 +9,9 @@ import java.util.Random;
 import java.util.ArrayList;
 public class Dealer extends Player
 {
-    private Random generator = new Random();
-    public Dealer()
+    
+    public Dealer(Card first, Card second)
     {
-        super();
+        super(0, first, second);
     }
 }

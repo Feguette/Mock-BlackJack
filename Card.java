@@ -10,12 +10,12 @@ import java.awt.image.BufferedImage;
 public class Card
 {
     private int value;
-    private int number;
+    private int type;
     private int suit;
     private BufferedImage image;
-    public Card(int n, int s, int v, BufferedImage pict)
+    public Card(int t, int s, int v, BufferedImage pict)
     {
-        number = n;
+        type = t;
         suit = s;
         value = v;
         image = pict;
@@ -31,9 +31,9 @@ public class Card
         return value;
     }
     
-    public int getNumber()
+    public int getType()
     {
-        return number;
+        return type;
     }
     
     public BufferedImage getImage()

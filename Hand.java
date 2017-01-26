@@ -78,16 +78,21 @@ public class Hand
         return hand.size();
     }
     
-    public void display(ArrayList<Card> decks)
+    public void display()
     {
-        for (int i = 0; i < decks.size(); i++)
+        for (int i = 0; i < hand.size(); i++)
         {
-            Card current = decks.get(i);
+            Card current = hand.get(i);
             System.out.print(current.getValue());
             System.out.print(suits[current.getSuit()]);
-            if (decks.size() > i + 1)
+            if (hand.size() > i + 1)
                 System.out.print(", ");
         }
         System.out.println("");
+    }
+    
+    public int getSize()
+    {
+        return hand.size();
     }
 }

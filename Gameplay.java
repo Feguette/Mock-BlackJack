@@ -15,83 +15,82 @@ import java.awt.image.BufferedImage;
 import java.util.*;
 public class Gameplay //extends JPanel
 {
+    public static void display(ArrayList<Card> pack)
+    {
+        String[] suits = {"S", "C", "D", "H"};
+        for (int i = 0; i < pack.size(); i++)
+        {
+            Card current = pack.get(i);
+            System.out.print(current.getValue());
+            System.out.print(suits[current.getSuit()]);
+            if (pack.size() > i + 1)
+                System.out.print(", ");
+        }
+        System.out.println("");
+    }
+    
     public static void main (String args[])
     {
-        Deck d = new Deck();
-        Player a = new Player();
-        
+        Deck heap = new Deck();
+        Player noob = new Player(500, heap.draw(), heap.draw());
+        Dealer pro = new Dealer(heap.draw(), heap.draw());
+        boolean noobCont = true;
+        boolean proCont = true;
         boolean opCont = true;
-        a.addCard(d.draw());
-        a.addCard(d.draw());
-        a.display(d.getDeck());
-        a.display(a.getHand());
+        display(heap.getDeck());
+        display(noob.getPortion(0).getHand());
         int choice;
         Scanner in = new Scanner(System.in);
         gameLoop:while (opCont)
         {
-            playerLoop:while (p1)
+            playerLoop:for (int i = 0; i < noob.getBulk().size(); i ++) //Stores objects of bulk storage onto Hand current. alternate does not work since index is needed for split
             {
-                System.out.println("1. Stay");
-                System.out.println("2. Hit");
-                //System.out.println("3. Double Down");
-                System.out.println("4. Split");
-                choice = -1;
-                choice = in.nextInt();
-                if (choice == 0)
+                Hand current = noob.getPortion(i);
+                handLoop:while (noobCont)
                 {
-                    break gameLoop;
-                }
-                
-                if (choice == 1)
-                {
-                    break playerLoop;
-                }
-                
-                if (choice == 2)
-                {
-                    a.addCard(d.draw);
-                    p1 = !a.checkLoss();
-                }
-                
-                if (choice == 3)
-                {
-                    a.addCard(d.draw);
-                    break playerLoop;
-                }
-                
-                if (choice == 4)
-                {
+                    display(current.getHand());
+                    if (current.totalHand() == 21)
+                    {
+                        break handLoop;
+                    }
+                    System.out.println("0. Ragequit");
+                    System.out.println("1. Stay");
+                    System.out.println("2. Hit");
+                    System.out.println("3. Double Down");
                     
+                    System.out.println("4. Split"); 
+                    
+                    System.out.print("Input option: ");
+                    choice = in.nextInt();
+                    if (choice == 0)
+                    {
+                        System.out.println("Get rekted, noob");
+                        break gameLoop;
+                    }
+                    
+                    if (choice == 4 && current.getCard(0).getType() == current.getCard(1).getType() && current.getSize() == 2) // checks if option 4 is chosen and checks if 1 pair
+                    {
+                        noob.split(i, heap.draw(), heap.draw());
+                    }
+                    
+                    if (choice == 1 || choice == 3)
+                    {
+                        noobCont = false;
+                    }
+                    
+                    if (choice == 2 || choice == 3)
+                    {
+                        current.addCard(heap.draw());
+                    }
                 }
+                noobCont = true;
+            }
+                
+            dealerLoop:while (proCont)
+            {
+                
             }
             
-            dealerLoop:while (d1)
-            {
-                if ($player.checkLoss())
-                {
-                    System.out.println("You Lose");
-                    break dealerLoop;
-                }
-                else
-                {
-                    while ($dealer.getTotal() < 17)
-                    {
-                        $dealer.addCard($deck.draw);
-                    }
-                    if ($dealer.getLoss() == true)
-                    {
-                        System.out.println("You win");
-                        break dealer;
-                    }
-                    else
-                    {
-                        if ($dealer.getTotal() < $player.getTotal())
-                        {
-                            
-                        }
-                    }
-                }
-            }
         }
     }
 }   
