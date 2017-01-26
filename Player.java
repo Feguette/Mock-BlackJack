@@ -8,7 +8,7 @@ import java.util.ArrayList;
 public class Player
 {
     private ArrayList<Hand> bulk;
-    private String[] suits = {"S", "C", "D", "H"};
+    private String[] suits = {"SPADE", "CLUB", "DIAMOND", "HEART"};
     public Player(Card ran1, Card ran2)
     {
         bulk = new ArrayList<Hand>();

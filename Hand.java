@@ -12,6 +12,7 @@ import java.io.File;
 import java.awt.image.BufferedImage;
 public class Hand
 {
+    private String[] suits = {"SPADE", "CLUB", "DIAMOND", "HEART"};
     private ArrayList<Card> hand;
     public Hand(Card first, Card second)
     {
@@ -27,7 +28,7 @@ public class Hand
         return current;
     }
     
-    public void drawCard(Card target)
+    public void addCard(Card target)
     {
         hand.add(target);
     }
@@ -75,5 +76,18 @@ public class Hand
     public int getCardCount()
     {
         return hand.size();
+    }
+    
+    public void display(ArrayList<Card> decks)
+    {
+        for (int i = 0; i < decks.size(); i++)
+        {
+            Card current = decks.get(i);
+            System.out.print(current.getValue());
+            System.out.print(suits[current.getSuit()]);
+            if (decks.size() > i + 1)
+                System.out.print(", ");
+        }
+        System.out.println("");
     }
 }
