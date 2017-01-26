@@ -7,29 +7,33 @@
 import java.util.ArrayList;
 public class Player
 {
-    private ArrayList<Hand> hand;
+    private ArrayList<Hand> bulk;
     private String[] suits = {"S", "C", "D", "H"};
-    public Player()
+    public Player(Card ran1, Card ran2)
     {
-        hand = new ArrayList<Hand>();
-        
+        bulk = new ArrayList<Hand>();
+        bulk.add(new Hand(ran1, ran2));
     }
     
-    public boolean checkLoss(int handValue)
+    public Hand getHand(int index)
     {
-        return (handValue > 21);
+        return bulk.get(index);
     }
     
-    /*public void display(ArrayList<Card> decks)
+    public void draw(int index, Card target)
     {
-        for (int i = 0; i < decks.size(); i++)
-        {
-            Card current = decks.get(i);
-            System.out.print(current.getValue());
-            System.out.print(suits[current.getSuit()]);
-            if (decks.size() > i + 1)
-            System.out.print(", ");
-        }
-        System.out.println("");
+        bulk.get(index).addCard(target);
+    }
+    
+    public void split(int index, Card ran1, Card ran2) //conditions are checked outside of Player
+    {
+        Card current = getHand(index).replaceCard();
+        draw(index, ran1);
+        bulk.add(new Hand(current, ran2));
+    }
+    
+    /*public void removeCard(int index)
+    {
+        hand.remove(
     }*/
 }
