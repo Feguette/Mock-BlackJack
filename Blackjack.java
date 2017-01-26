@@ -16,26 +16,39 @@ import java.util.*;
 import java.util.Scanner;
 public class Blackjack extends JPanel
 {   
-    private int x = 0;
-    private static Player a = new Player();
-    private static Deck d = new Deck();
-    public static void main(String []args)
-    {
-        Gameplay g = new Gameplay();
+   private int x = 0;
+   private static Deck d = new Deck();
+   private static Player a = new Player(d.draw(), d.draw());
+   private static Hand thing1;
+   public static void main(String []args)
+   {
+        //Gameplay g = new Gameplay();
         JFrame frame = new JFrame("Test");
         frame.setSize(700, 700);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         JButton clickHit = new JButton("Hit");
+        JButton clickStay = new JButton("Stay");
+        JButton clickSplit = new JButton("Split");
+        JButton clickDouble = new JButton("Double");
         //Player a = new Player();
         //Deck d = new Deck();
         Blackjack bj = new Blackjack();
         frame.add(clickHit);
+        frame.add(clickStay);
+        frame.add(clickDouble);
+        clickHit.setLocation(100,0);
+        clickDouble.setLocation(200,0);
+        clickStay.setLocation(300,0);
+        frame.setVisible(true);
         
+        for (Hand thingy: a.getHand())
+        {
+            thing1 = thingy;
         class HitListener implements ActionListener
         {
             public void actionPerformed(ActionEvent event)
             {
-                a.addCard(d.draw());
+                thingy.addCard(d.draw());
                 bj.repaint();
             }
         }
@@ -60,7 +73,7 @@ public class Blackjack extends JPanel
         {
             public void actionPerformed(ActionEvent event)
             {
-                a.addCard(d.draw());
+                thingy.addCard(d.draw());
                 bj.repaint();
             }
         }
@@ -79,16 +92,15 @@ public class Blackjack extends JPanel
         
         ActionListener splitListener = new SplitListener();
         clickHit.addActionListener(splitListener);
-    }
-    
-    public void paintComponent(Graphics g2)
-    {
-        for (int i = 0; i < a.getHand().size(); i++)
-        {
-            x = x + 100;
-            g2.drawImage(a.getHand().get(i).getImage(), x, 200, null);
         }
-    }
+   }
     
-    
+   public void paintComponent(Graphics g2)
+   {
+       for (int i = 0; i < thing1.getCardCount(); i++)
+       {
+           x = x + 100;
+           g2.drawImage(thing1.getCard(i).getImage(), x, 200, null);
+       }
+   }
 }
