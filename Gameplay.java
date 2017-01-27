@@ -29,11 +29,23 @@ public class Gameplay //extends JPanel
         System.out.println("");
     }
     
+    public static boolean dealerWin(Player noob)
+    {
+        for (int i = 0; i < noob.getBulk().size(); i ++) //Stores objects of bulk storage onto Hand current. alternate does not work since index is needed for split
+        {
+            Hand current = noob.getPortion(i);
+            if (current.getTotal() < 21)
+                return false;
+        }
+        return true;
+    }
+    
     public static void main (String args[])
     {
         Deck heap = new Deck();
         Player noob = new Player(500, heap.draw(), heap.draw());
         Dealer pro = new Dealer(heap.draw(), heap.draw());
+        
         boolean noobCont = true;
         boolean proCont = true;
         boolean opCont = true;
@@ -48,8 +60,9 @@ public class Gameplay //extends JPanel
                 Hand current = noob.getPortion(i);
                 handLoop:while (noobCont)
                 {
+                    boolean paired = current.getCard(0).getType() == current.getCard(1).getType() && current.getSize() == 2;
                     display(current.getHand());
-                    if (current.totalHand() == 21)
+                    if (current.getTotal() == 21)
                     {
                         break handLoop;
                     }
@@ -58,7 +71,8 @@ public class Gameplay //extends JPanel
                     System.out.println("2. Hit");
                     System.out.println("3. Double Down");
                     
-                    System.out.println("4. Split"); 
+                    if (paired)
+                        System.out.println("4. Split"); 
                     
                     System.out.print("Input option: ");
                     choice = in.nextInt();
@@ -68,7 +82,7 @@ public class Gameplay //extends JPanel
                         break gameLoop;
                     }
                     
-                    if (choice == 4 && current.getCard(0).getType() == current.getCard(1).getType() && current.getSize() == 2) // checks if option 4 is chosen and checks if 1 pair
+                    if (choice == 4 && paired) // checks if option 4 is chosen and checks if 1 pair
                     {
                         noob.split(i, heap.draw(), heap.draw());
                     }
@@ -89,8 +103,18 @@ public class Gameplay //extends JPanel
             dealerLoop:while (proCont)
             {
                 
+                if (dealerWin(noob))
+                {
+                    System.out.println("Get rekted, noob");
+                }
+                else 
+                {
+                    while (pro.getPortion(0).getTotal())
+                    {
+                        
+                    }
+                }
             }
-            
         }
     }
 }   
