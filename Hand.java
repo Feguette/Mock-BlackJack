@@ -43,7 +43,7 @@ public class Hand
         return hand;
     }
     
-    public int totalHand()
+    public int getTotal()
     {
         int total = 0;
         int count = 0;

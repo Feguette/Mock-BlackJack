@@ -29,7 +29,7 @@ public class Gameplay //extends JPanel
         System.out.println("");
     }
     
-    public static boolean dealerWin(Player noob)
+    public static boolean dealerAutoWin(Player noob)
     {
         for (int i = 0; i < noob.getBulk().size(); i ++) //Stores objects of bulk storage onto Hand current. alternate does not work since index is needed for split
         {
@@ -38,6 +38,43 @@ public class Gameplay //extends JPanel
                 return false;
         }
         return true;
+    }
+    
+    public static int compareWin(Hand noob, Hand pro)
+    {
+        int friendly = noob.getTotal();
+        int opFor = pro.getTotal();
+        if (opFor > 21)
+        {
+            return 1;
+        }
+        
+        if (opFor > friendly)
+        {
+            return -1;
+        }
+        
+        if (friendly > opFor)
+        {
+            return 1;
+        }
+        
+        if (opFor == friendly)
+        {
+            if (opFor == 21)
+            {
+                if (noob.getSize() == 2 && pro.getSize() > 2)
+                {
+                    return 1;
+                }
+                
+                if (pro.getSize() == 2 && noob.getSize() > 2)
+                {
+                    return -1;
+                }
+            }
+        }
+        return 0;
     }
     
     public static void main (String args[])
@@ -102,16 +139,22 @@ public class Gameplay //extends JPanel
                 
             dealerLoop:while (proCont)
             {
-                
-                if (dealerWin(noob))
+                if (dealerAutoWin(noob))
                 {
                     System.out.println("Get rekted, noob");
                 }
                 else 
                 {
-                    while (pro.getPortion(0).getTotal())
+                    Hand opFor = pro.getPortion(0);
+                    while (opFor.getTotal() < 17)
                     {
-                        
+                        opFor.addCard(heap.draw());
+                    }
+                    
+                    for (int i = 0; i < noob.getBulk().size(); i ++) //Stores objects of bulk storage onto Hand current. alternate does not work since index is needed for split
+                    {
+                        Hand current = noob.getPortion(i);
+                        int win = compareWin(current, opFor);
                     }
                 }
             }
