@@ -15,18 +15,19 @@ import java.awt.image.BufferedImage;
 import java.util.*;
 public class Gameplay //extends JPanel
 {
-    public static void display(ArrayList<Card> pack)
+    public static void display(Hand pack)
     {
         String[] suits = {"S", "C", "D", "H"};
-        for (int i = 0; i < pack.size(); i++)
+        ArrayList<Card> pile = pack.getHand();
+        for (int i = 0; i < pile.size(); i++)
         {
-            Card current = pack.get(i);
-            System.out.print(current.getValue());
+            Card current = pile.get(i);
+            System.out.print(current.getType());
             System.out.print(suits[current.getSuit()]);
-            if (pack.size() > i + 1)
+            if (pile.size() > i + 1)
                 System.out.print(", ");
         }
-        System.out.println("");
+        System.out.println(" = " + pack.getTotal());
     }
     
     public static boolean dealerAutoWin(Player noob)
@@ -104,8 +105,8 @@ public class Gameplay //extends JPanel
                 handLoop:while (noobCont)
                 {
                     boolean paired = current.getCard(0).getType() == current.getCard(1).getType() && current.getSize() == 2;
-                    display(current.getHand());
-                    display(pro.getPortion(0).getHand());
+                    display(current);
+                    display(pro.getPortion(0));
                     if (current.getTotal() >= 21)
                     {
                         break handLoop;
@@ -149,7 +150,7 @@ public class Gameplay //extends JPanel
                 Hand opFor = pro.getPortion(0);
                 Hand current = noob.getPortion(0);
                 System.out.println("Before: ");
-                display(opFor.getHand());
+                display(opFor);
                 if (!dealerAutoWin(noob))
                 {
                     while (opFor.getTotal() < 17)
@@ -159,15 +160,15 @@ public class Gameplay //extends JPanel
                 }
 
                 System.out.println("After: ");
-                display(opFor.getHand());
-                System.out.println("Compare: ");
+                display(opFor);
                 for (int i = 0; i < noob.getBulk().size(); i ++) //Stores objects of bulk storage onto Hand current. alternate does not work since index is needed for split
                 {
+                    System.out.println("Compare (" + (i + 1) + "): ");
                     current = noob.getPortion(i);
                     comWin = compareWin(current, opFor);
                     
-                    display(current.getHand());
-                    display(pro.getPortion(0).getHand());
+                    display(current);
+                    display(pro.getPortion(0));
                     System.out.print(victory[comWin]);
                 }
                     
