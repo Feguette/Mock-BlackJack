@@ -17,6 +17,10 @@ import java.util.Scanner;
 public class Blackjack extends JPanel
 {   
    private int xComponent = 0;
+   private static Deck heap = new Deck();
+   private static Player noob = new Player(500, heap.draw(), heap.draw());
+   private static Dealer pro = new Dealer(heap.draw(), heap.draw());
+   private BufferedImage image;
    public static void main(String []args)
    {
         JFrame frame = new JFrame("Blackjack");
@@ -32,9 +36,9 @@ public class Blackjack extends JPanel
         clickStay.setPreferredSize(new Dimension(100,100));
         clickDouble.setPreferredSize(new Dimension(100,100));
         clickSplit.setPreferredSize(new Dimension(100,100));
-        Deck heap = new Deck();
-        Player noob = new Player(500, heap.draw(), heap.draw());
-        Dealer pro = new Dealer(heap.draw(), heap.draw());
+        //Deck heap = new Deck();
+        //Player noob = new Player(500, heap.draw(), heap.draw());
+        //Dealer pro = new Dealer(heap.draw(), heap.draw());
         Blackjack bj = new Blackjack();
         contain.add(clickHit);
         contain.add(clickStay);
@@ -53,8 +57,7 @@ public class Blackjack extends JPanel
         {
             public void actionPerformed(ActionEvent event)
             {
-                
-                bj.repaint();
+                bj.paintSlowly();
             }
         }
         
@@ -79,7 +82,7 @@ public class Blackjack extends JPanel
             public void actionPerformed(ActionEvent event)
             {
                 
-                bj.repaint();
+                bj.paintSlowly();
             }
         }
         
@@ -100,8 +103,30 @@ public class Blackjack extends JPanel
         
         }
    } 
+   
+   public void paintSlowly()
+   {
+       Card substitute;
+       for (int i = 0; i < noob.getBulk().size(); i++)
+       {
+           for (int j = 0; i < noob.getBulk().get(i).getHand().size(); i++)
+           {
+               substitute = noob.getBulk().get(i).getHand().get(j);
+               try {
+                   image = ImageIO.read(new File(substitute.getTipe()+"_"+substitute.getSuit()+".jpg"));
+               }
+               catch (Exception e)
+               {
+                   
+               }
+               repaint();
+           }
+       }
+   }
+   
    public void paintComponent(Graphics g2)
    {
-       //g2.drawImage((image), 0, 200, null);
+       xComponent = xComponent + 100;
+       g2.drawImage(image, xComponent, 200, null);
    }
 }
