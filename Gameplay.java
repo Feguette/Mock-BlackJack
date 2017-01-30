@@ -34,7 +34,7 @@ public class Gameplay //extends JPanel
         for (int i = 0; i < noob.getBulk().size(); i ++) //Stores objects of bulk storage onto Hand current. alternate does not work since index is needed for split
         {
             Hand current = noob.getPortion(i);
-            if (current.getTotal() < 21)
+            if (current.getTotal() <= 21)
                 return false;
         }
         return true;
@@ -44,19 +44,24 @@ public class Gameplay //extends JPanel
     {
         int friendly = noob.getTotal();
         int opFor = pro.getTotal();
+        if (friendly > 21)
+        {
+            return 2;
+        }
+        
         if (opFor > 21)
         {
-            return 1;
+            return 0;
         }
         
         if (opFor > friendly)
         {
-            return -1;
+            return 2;
         }
         
         if (friendly > opFor)
         {
-            return 1;
+            return 0;
         }
         
         if (opFor == friendly)
@@ -65,16 +70,16 @@ public class Gameplay //extends JPanel
             {
                 if (noob.getSize() == 2 && pro.getSize() > 2)
                 {
-                    return 1;
+                    return 2;
                 }
                 
                 if (pro.getSize() == 2 && noob.getSize() > 2)
                 {
-                    return -1;
+                    return 0;
                 }
             }
         }
-        return 0;
+        return 1;
     }
     
     public static void main (String args[])
@@ -86,12 +91,13 @@ public class Gameplay //extends JPanel
         boolean noobCont = true;
         boolean proCont = true;
         boolean opCont = true;
-        display(heap.getDeck());
-        display(noob.getPortion(0).getHand());
+        //display(heap.getDeck());
+        //display(noob.getPortion(0).getHand());
         int choice;
         Scanner in = new Scanner(System.in);
         gameLoop:while (opCont)
         {
+            int comWin = 0;
             playerLoop:for (int i = 0; i < noob.getBulk().size(); i ++) //Stores objects of bulk storage onto Hand current. alternate does not work since index is needed for split
             {
                 Hand current = noob.getPortion(i);
@@ -99,7 +105,8 @@ public class Gameplay //extends JPanel
                 {
                     boolean paired = current.getCard(0).getType() == current.getCard(1).getType() && current.getSize() == 2;
                     display(current.getHand());
-                    if (current.getTotal() == 21)
+                    display(pro.getPortion(0).getHand());
+                    if (current.getTotal() >= 21)
                     {
                         break handLoop;
                     }
@@ -136,28 +143,39 @@ public class Gameplay //extends JPanel
                 }
                 noobCont = true;
             }
-                
+            String[] victory = {"You won. ", "You tied. ", "You died. "};    
             dealerLoop:while (proCont)
             {
-                if (dealerAutoWin(noob))
+                Hand opFor = pro.getPortion(0);
+                Hand current = noob.getPortion(0);
+                System.out.println("Before: ");
+                display(opFor.getHand());
+                if (!dealerAutoWin(noob))
                 {
-                    System.out.println("Get rekted, noob");
-                }
-                else 
-                {
-                    Hand opFor = pro.getPortion(0);
                     while (opFor.getTotal() < 17)
                     {
                         opFor.addCard(heap.draw());
                     }
-                    
-                    for (int i = 0; i < noob.getBulk().size(); i ++) //Stores objects of bulk storage onto Hand current. alternate does not work since index is needed for split
-                    {
-                        Hand current = noob.getPortion(i);
-                        int win = compareWin(current, opFor);
-                    }
                 }
+
+                System.out.println("After: ");
+                display(opFor.getHand());
+                System.out.println("Compare: ");
+                for (int i = 0; i < noob.getBulk().size(); i ++) //Stores objects of bulk storage onto Hand current. alternate does not work since index is needed for split
+                {
+                    current = noob.getPortion(i);
+                    comWin = compareWin(current, opFor);
+                    
+                    display(current.getHand());
+                    display(pro.getPortion(0).getHand());
+                    System.out.print(victory[comWin]);
+                }
+                    
+                
+                break gameLoop;
             }
+            
+            
         }
     }
 }   
