@@ -20,22 +20,25 @@ public class Blackjack extends JPanel
    public static void main(String []args)
    {
         JFrame frame = new JFrame("Blackjack");
-        frame.setSize(1000, 1000);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         JButton clickHit = new JButton("Hit");
         JButton clickStay = new JButton("Stay");
         JButton clickDouble = new JButton("Double");
         JButton clickSplit = new JButton("Split");
+        Container contain = frame.getContentPane();
+        contain.setLayout(new FlowLayout());
+        frame.setSize(1000, 1000);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        clickHit.setPreferredSize(new Dimension(100,100));
+        clickStay.setPreferredSize(new Dimension(100,100));
+        clickDouble.setPreferredSize(new Dimension(100,100));
+        clickSplit.setPreferredSize(new Dimension(100,100));
         Deck heap = new Deck();
         Player noob = new Player(500, heap.draw(), heap.draw());
         Dealer pro = new Dealer(heap.draw(), heap.draw());
         Blackjack bj = new Blackjack();
-        clickHit.setBounds(0,0,100,100);
-        clickDouble.setBounds(100,0,100,100);
-        clickStay.setBounds(200,0,100,100);
-        frame.add(clickHit);
-        frame.add(clickStay);
-        frame.add(clickDouble);
+        contain.add(clickHit);
+        contain.add(clickStay);
+        contain.add(clickDouble);
         for (int i = 0; i < noob.getBulk().size(); i ++)
         {
         if (noob.getPortion(i).checkSplit())
@@ -99,14 +102,6 @@ public class Blackjack extends JPanel
    } 
    public void paintComponent(Graphics g2)
    {
-       BufferedImage bob = null;
-       try {
-                    bob = ImageIO.read(new File("7_SPADE.jpg"));
-                }
-                catch (Exception e)
-                {
-                    
-                }
-       g2.drawImage(bob, 0, 200, null);
+       //g2.drawImage((image), 0, 200, null);
    }
 }
