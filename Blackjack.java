@@ -16,41 +16,41 @@ import java.util.*;
 import java.util.Scanner;
 public class Blackjack extends JPanel
 {   
-   private int x = 0;
-   private static Player a;
-   private static Deck d = new Deck();
-   private static Hand thing1;
+   private int xComponent = 0;
    public static void main(String []args)
    {
-       Player noob = new Player(d.draw(), d.draw());
-        //Gameplay g = new Gameplay();
-        JFrame frame = new JFrame("Test");
-        frame.setSize(700, 700);
+        JFrame frame = new JFrame("Blackjack");
+        frame.setSize(1000, 1000);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         JButton clickHit = new JButton("Hit");
         JButton clickStay = new JButton("Stay");
-        JButton clickSplit = new JButton("Split");
         JButton clickDouble = new JButton("Double");
-        //Player a = new Player();
-        //Deck d = new Deck();
+        JButton clickSplit = new JButton("Split");
+        Deck heap = new Deck();
+        Player noob = new Player(500, heap.draw(), heap.draw());
+        Dealer pro = new Dealer(heap.draw(), heap.draw());
         Blackjack bj = new Blackjack();
+        clickHit.setBounds(0,0,100,100);
+        clickDouble.setBounds(100,0,100,100);
+        clickStay.setBounds(200,0,100,100);
         frame.add(clickHit);
         frame.add(clickStay);
         frame.add(clickDouble);
-        //if ()
-        //{
-         //   frame.add(clickSplit);
-        //}
+        for (int i = 0; i < noob.getBulk().size(); i ++)
+        {
+        if (noob.getPortion(i).checkSplit())
+        {
+        clickSplit.setBounds(300,0,100,100);
+        frame.add(clickSplit);
+        }
         frame.setVisible(true);
         
-        for (Hand thingy: noob.getBulk())
-        {
-            thing1 = thingy;
+        
         class HitListener implements ActionListener
         {
             public void actionPerformed(ActionEvent event)
             {
-                thingy.addCard(d.draw());
+                
                 bj.repaint();
             }
         }
@@ -75,7 +75,7 @@ public class Blackjack extends JPanel
         {
             public void actionPerformed(ActionEvent event)
             {
-                thingy.addCard(d.draw());
+                
                 bj.repaint();
             }
         }
@@ -94,15 +94,19 @@ public class Blackjack extends JPanel
         
         ActionListener splitListener = new SplitListener();
         clickHit.addActionListener(splitListener);
+        
         }
-   }
-    
+   } 
    public void paintComponent(Graphics g2)
    {
-       for (int i = 0; i < thing1.getCardCount(); i++)
-       {
-           x = x + 100;
-           g2.drawImage(thing1.getCard(i).getImage(), x, 200, null);
-       }
+       BufferedImage bob = null;
+       try {
+                    bob = ImageIO.read(new File("7_SPADE.jpg"));
+                }
+                catch (Exception e)
+                {
+                    
+                }
+       g2.drawImage(bob, 0, 200, null);
    }
 }
