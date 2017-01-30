@@ -83,8 +83,10 @@ public class Gameplay //extends JPanel
         return 1;
     }
     
+    
     public static void main (String args[])
     {
+        //Gameplay bj = new Gameplay();
         Deck heap = new Deck();
         Player noob = new Player(500, heap.draw(), heap.draw());
         Dealer pro = new Dealer(heap.draw(), heap.draw());
@@ -96,6 +98,7 @@ public class Gameplay //extends JPanel
         //display(noob.getPortion(0).getHand());
         int choice;
         Scanner in = new Scanner(System.in);
+        Scanner inquire = new Scanner(System.in);
         gameLoop:while (opCont)
         {
             int comWin = 0;
@@ -169,14 +172,26 @@ public class Gameplay //extends JPanel
                     
                     display(current);
                     display(pro.getPortion(0));
-                    System.out.print(victory[comWin]);
+                    System.out.println(victory[comWin]);
                 }
                     
                 
-                break gameLoop;
+                break dealerLoop;
             }
             
             
+            for (Hand clearing: noob.getBulk())
+            {
+                heap.returnCards(clearing.getHand());
+            }
+            pro.clearBulk();
+            noob.clearBulk();
+            pro.addBulk(heap.draw(), heap.draw());
+            noob.addBulk(heap.draw(), heap.draw());
+            System.out.println("0. Ragequit");
+            System.out.println("Any. Continue to get rekted");
+            if (inquire.nextLine().equals("0"))
+                break gameLoop;
         }
     }
 }   

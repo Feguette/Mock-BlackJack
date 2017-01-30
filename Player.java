@@ -50,8 +50,14 @@ public class Player
         bulk.add(new Hand(current, ran2));
     }
     
-    /*public void removeCard(int index)
+    public void addBulk(Card ran1, Card ran2)
     {
-        hand.remove(
-    }*/
+        bulk.add(new Hand(ran1, ran2));
+    }
+    
+    public void clearBulk()
+    {
+        bulk.clear();
+        
+    }
 }

@@ -66,4 +66,11 @@ public class Deck
         return current;
     }
     
+    public void returnCards(ArrayList<Card> pack)
+    {
+        for (Card current: pack)
+        {
+            deck.add(current);
+        }
+    }
 }
