@@ -109,7 +109,7 @@ public class Blackjack extends JPanel
        Card substitute;
        for (int i = 0; i < noob.getBulk().size(); i++)
        {
-           for (int j = 0; i < noob.getBulk().get(i).getHand().size(); i++)
+           for (int j = 0; j < noob.getBulk().get(i).getHand().size(); j++)
            {
                substitute = noob.getBulk().get(i).getHand().get(j);
                try {
