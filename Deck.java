@@ -13,10 +13,10 @@ public class Deck
 {
     private ArrayList<Card> deck = new ArrayList();
     private Random generator = new Random();
+    private BufferedImage image;
     public Deck()
     {
-        String[] suits = {"S", "C", "D", "H"};
-        BufferedImage image = null;
+        String[] suits = {"SPADE", "CLUB", "DIAMOND", "HEART"};
         Card current;
         int value;
         for (int i = 0; i < 4; i++)
@@ -32,12 +32,14 @@ public class Deck
                     type = "Q";
                 if (j == 13)
                     type = "K";
+                    String name = "";
                 try {
-                    image = ImageIO.read(new File(type + "_" + suits[i] + ".jpg"));
+                    name = type + "_" + suits[i] + ".jpg";
+                    image = ImageIO.read(new File(name));
                 }
                 catch (Exception e)
                 {
-                    
+                    System.out.println(name);
                 }
                 value = j;
                 if (j == 1)
