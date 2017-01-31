@@ -21,6 +21,7 @@ public class Blackjack extends JPanel
    private static Player noob = new Player(500, heap.draw(), heap.draw());
    private static Dealer pro = new Dealer(heap.draw(), heap.draw());
    private BufferedImage image;
+   private int yComponent = 100;
    public static void main(String []args)
    {
         JFrame frame = new JFrame("Blackjack");
@@ -28,6 +29,7 @@ public class Blackjack extends JPanel
         JButton clickStay = new JButton("Stay");
         JButton clickDouble = new JButton("Double");
         JButton clickSplit = new JButton("Split");
+        JButton clickRQ = new JButton("Rage Quit");
         Container contain = frame.getContentPane();
         contain.setLayout(new FlowLayout());
         frame.setSize(1000, 1000);
@@ -36,6 +38,7 @@ public class Blackjack extends JPanel
         clickStay.setPreferredSize(new Dimension(100,100));
         clickDouble.setPreferredSize(new Dimension(100,100));
         clickSplit.setPreferredSize(new Dimension(100,100));
+        clickRQ.setPreferredSize(new Dimension(100,100));
         //Deck heap = new Deck();
         //Player noob = new Player(500, heap.draw(), heap.draw());
         //Dealer pro = new Dealer(heap.draw(), heap.draw());
@@ -43,6 +46,7 @@ public class Blackjack extends JPanel
         contain.add(clickHit);
         contain.add(clickStay);
         contain.add(clickDouble);
+        contain.add(clickRQ);
         bj.paintSlowly();
         for (int i = 0; i < noob.getBulk().size(); i ++)
         {
@@ -99,6 +103,16 @@ public class Blackjack extends JPanel
         ActionListener splitListener = new SplitListener();
         clickHit.addActionListener(splitListener);
         
+        class RQListener implements ActionListener
+        {
+            public void actionPerformed(ActionEvent event)
+            {
+                bj.paintSlowly();
+            }
+        }
+        
+        ActionListener rqListener = new RQListener();
+        clickRQ.addActionListener(rqListener);
         }
    } 
    
@@ -125,6 +139,6 @@ public class Blackjack extends JPanel
    public void paintComponent(Graphics g2)
    {
        xComponent = xComponent + 100;
-       g2.drawImage(image, xComponent, 200, null);
+       g2.drawImage(image, xComponent, yComponent, null);
    }
 }
