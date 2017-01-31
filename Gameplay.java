@@ -87,19 +87,16 @@ public class Gameplay //extends JPanel
             return 0;
         }
         
-        if (opFor == friendly)
+        if (opFor == 21 && friendly == 21)
         {
-            if (opFor == 21)
+            if (noob.getSize() == 2 && pro.getSize() > 2)
             {
-                if (noob.getSize() == 2 && pro.getSize() > 2)
-                {
-                    return 2;
-                }
-                
-                if (pro.getSize() == 2 && noob.getSize() > 2)
-                {
-                    return 0;
-                }
+                return 0;
+            }
+            
+            if (pro.getSize() == 2 && noob.getSize() > 2)
+            {
+                return 2;
             }
         }
         return 1;
@@ -146,6 +143,7 @@ public class Gameplay //extends JPanel
                     
                     System.out.print("Input option: ");
                     choice = in.nextInt();
+                    System.out.println("");
                     if (choice == 0)
                     {
                         System.out.println("Get rekted, noob");
@@ -175,8 +173,8 @@ public class Gameplay //extends JPanel
             {
                 Hand opFor = pro.getPortion(0);
                 Hand current = noob.getPortion(0);
-                System.out.println("");
-                System.out.println("Before: ");
+                
+                System.out.print("Before: ");
                 display(opFor);
                 if (!dealerAutoWin(noob))
                 {
@@ -185,8 +183,9 @@ public class Gameplay //extends JPanel
                         opFor.addCard(heap.draw());
                     }
                 }
-                System.out.println("After: ");
+                System.out.print("After: ");
                 display(opFor);
+                System.out.println("");
                 for (int i = 0; i < noob.getBulk().size(); i ++) //Stores objects of bulk storage onto Hand current. alternate does not work since index is needed for split
                 {
                     System.out.println("Compare (" + (i + 1) + "): ");
@@ -208,8 +207,11 @@ public class Gameplay //extends JPanel
             noob.addBulk(heap.draw(), heap.draw());
             System.out.println("0. Ragequit");
             System.out.println("Any. Continue to get rekted");
+            System.out.print("Input option: ");
+            
             if (inquire.nextLine().equals("0"))
-                break gameLoop;
+                opCont = false;
+            System.out.println("");
         }
     }
 }   
