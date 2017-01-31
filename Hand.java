@@ -1,4 +1,3 @@
-
 /**
  * Write a description of class Hands here.
  * 
@@ -26,6 +25,11 @@ public class Hand
         Card current = hand.get(0);
         hand.remove(0);
         return current;
+    }
+    
+    public boolean checkSplit()
+    {
+        return getCard(0).getType() == getCard(1).getType() && getSize() == 2;
     }
     
     public void addCard(Card target)
