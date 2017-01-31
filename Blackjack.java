@@ -43,6 +43,7 @@ public class Blackjack extends JPanel
         contain.add(clickHit);
         contain.add(clickStay);
         contain.add(clickDouble);
+        bj.paintSlowly();
         for (int i = 0; i < noob.getBulk().size(); i ++)
         {
         if (noob.getPortion(i).checkSplit())
@@ -69,7 +70,6 @@ public class Blackjack extends JPanel
         {
             public void actionPerformed(ActionEvent event)
             {
-                
             }
         }
         
@@ -81,7 +81,6 @@ public class Blackjack extends JPanel
         {
             public void actionPerformed(ActionEvent event)
             {
-                
                 bj.paintSlowly();
             }
         }
@@ -94,7 +93,6 @@ public class Blackjack extends JPanel
         {
             public void actionPerformed(ActionEvent event)
             {
-                
             }
         }
         
@@ -109,11 +107,11 @@ public class Blackjack extends JPanel
        Card substitute;
        for (int i = 0; i < noob.getBulk().size(); i++)
        {
-           for (int j = 0; j < noob.getBulk().get(i).getHand().size(); j++)
+           for (int j = 0;  j < noob.getBulk().get(i).getHand().size(); j++)
            {
                substitute = noob.getBulk().get(i).getHand().get(j);
                try {
-                   image = ImageIO.read(new File(substitute.getTipe()+"_"+substitute.getSuit()+".jpg"));
+                   image = ImageIO.read(new File(substitute.getTipe()+"_"+substitute.getSit()+".jpg"));
                }
                catch (Exception e)
                {
