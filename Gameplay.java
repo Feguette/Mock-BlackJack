@@ -201,6 +201,7 @@ public class Gameplay //extends JPanel
             {
                 heap.returnCards(clearing.getHand());
             }
+            heap.returnCards(pro.getPortion(0).getHand());
             pro.clearBulk();
             noob.clearBulk();
             pro.addBulk(heap.draw(), heap.draw());
