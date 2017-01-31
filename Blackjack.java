@@ -17,10 +17,10 @@ import java.util.Scanner;
 public class Blackjack extends JPanel
 {   
    private int xComponent = 0;
-   private static Deck heap = new Deck();
-   private static Player noob = new Player(500, heap.draw(), heap.draw());
-   private static Dealer pro = new Dealer(heap.draw(), heap.draw());
-   private BufferedImage image;
+   private Deck heap = new Deck();
+   private Player noob = new Player(500, heap.draw(), heap.draw());
+   private Dealer pro = new Dealer(heap.draw(), heap.draw());
+   private ArrayList<BufferedImage> album;
    private int yComponent = 100;
    public static void main(String []args)
    {
@@ -47,22 +47,22 @@ public class Blackjack extends JPanel
         contain.add(clickStay);
         contain.add(clickDouble);
         contain.add(clickRQ);
-        bj.paintSlowly();
-        for (int i = 0; i < noob.getBulk().size(); i ++)
+        for (int i = 0; i < bj.getPlayer().getBulk().size(); i ++)
         {
-        if (noob.getPortion(i).checkSplit())
+        if (bj.getPlayer().getPortion(i).checkSplit())
         {
         clickSplit.setBounds(300,0,100,100);
         frame.add(clickSplit);
         }
         frame.setVisible(true);
         
+        bj.repaint();
         
         class HitListener implements ActionListener
         {
             public void actionPerformed(ActionEvent event)
             {
-                bj.paintSlowly();
+                
             }
         }
         
@@ -74,6 +74,7 @@ public class Blackjack extends JPanel
         {
             public void actionPerformed(ActionEvent event)
             {
+                
             }
         }
         
@@ -85,7 +86,7 @@ public class Blackjack extends JPanel
         {
             public void actionPerformed(ActionEvent event)
             {
-                bj.paintSlowly();
+                
             }
         }
         
@@ -97,6 +98,7 @@ public class Blackjack extends JPanel
         {
             public void actionPerformed(ActionEvent event)
             {
+                
             }
         }
         
@@ -107,7 +109,7 @@ public class Blackjack extends JPanel
         {
             public void actionPerformed(ActionEvent event)
             {
-                bj.paintSlowly();
+                
             }
         }
         
@@ -116,7 +118,22 @@ public class Blackjack extends JPanel
         }
    } 
    
-   public void paintSlowly()
+   public Player getPlayer()
+   {
+       return noob;
+   }
+   
+   public Deck getDeck()
+   {
+       return heap;
+   }
+   
+   public Dealer getDealer()
+   {
+       return pro;
+   }
+   
+   public void defineImage()
    {
        Card substitute;
        for (int i = 0; i < noob.getBulk().size(); i++)
@@ -124,21 +141,18 @@ public class Blackjack extends JPanel
            for (int j = 0;  j < noob.getBulk().get(i).getHand().size(); j++)
            {
                substitute = noob.getBulk().get(i).getHand().get(j);
-               try {
-                   image = ImageIO.read(new File(substitute.getTipe()+"_"+substitute.getSit()+".jpg"));
-               }
-               catch (Exception e)
-               {
-                   
-               }
-               repaint();
+               album.add(substitute.getImage());
            }
        }
    }
    
    public void paintComponent(Graphics g2)
    {
+       defineImage();
        xComponent = xComponent + 100;
-       g2.drawImage(image, xComponent, yComponent, null);
+       for (int i = 0; i < album.size(); i++)
+       {
+           g2.drawImage(album.get(i), xComponent, yComponent, null);
+       }
    }
 }
