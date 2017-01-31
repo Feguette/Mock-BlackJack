@@ -81,19 +81,7 @@ public class Hand
     {
         return hand.size();
     }
-    
-    public void display()
-    {
-        for (int i = 0; i < hand.size(); i++)
-        {
-            Card current = hand.get(i);
-            System.out.print(current.getValue());
-            System.out.print(suits[current.getSuit()]);
-            if (hand.size() > i + 1)
-                System.out.print(", ");
-        }
-        System.out.println("");
-    }
+
     
     public int getSize()
     {
