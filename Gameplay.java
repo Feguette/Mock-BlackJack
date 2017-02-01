@@ -126,7 +126,6 @@ public class Gameplay //extends JPanel
                 Hand current = noob.getPortion(i);
                 handLoop:while (noobCont)
                 {
-                    boolean paired = current.getCard(0).getType() == current.getCard(1).getType() && current.getSize() == 2;
                     display(current);
                     displayHidden(pro.getPortion(0));
                     if (current.getTotal() >= 21)
@@ -138,7 +137,7 @@ public class Gameplay //extends JPanel
                     System.out.println("2. Hit");
                     System.out.println("3. Double Down");
                     
-                    if (paired)
+                    if (current.checkSplit())
                         System.out.println("4. Split"); 
                     
                     System.out.print("Input option: ");
@@ -150,7 +149,7 @@ public class Gameplay //extends JPanel
                         break gameLoop;
                     }
                     
-                    if (choice == 4 && paired) // checks if option 4 is chosen and checks if 1 pair
+                    if (choice == 4 && current.checkSplit()) // checks if option 4 is chosen and checks if 1 pair
                     {
                         noob.split(i, heap.draw(), heap.draw());
                     }
