@@ -26,6 +26,7 @@ private static int choice;
 private int cardHeight = 200; //Initialize when card height is known
 private static boolean noobCont = true;
 private static boolean proCont = true;
+private BufferedImage image;
 public static void main(String []args)
 {
     JFrame frame = new JFrame("Blackjack");
@@ -289,11 +290,26 @@ public void paintComponent(Graphics g2)
     {
         for (int i = 0; i < pro.getBulk().size(); i++)
         {
-            for (int j = 0;  j < pro.getBulk().get(i).getHand().size(); j++)
+            for (int j = 1;  j < pro.getBulk().get(i).getHand().size(); j++)
             {
                 xComponent = j*100;
                 yComponent = cardHeight;
-                g2.drawImage(pro.getBulk().get(i).getHand().get(j).getImage(), xComponent, yComponent, null);
+                if (j==1)
+                {
+                    try {
+                        String name = "BACK.jpg";
+                        image = ImageIO.read(new File(name));
+                    }
+                    catch (Exception e)
+                    {
+                        
+                    }
+                    g2.drawImage(image, xComponent, yComponent, null);
+                }
+                else
+                {
+                    g2.drawImage(pro.getBulk().get(i).getHand().get(j).getImage(), xComponent, yComponent, null);
+                }
             }
         }
     }
