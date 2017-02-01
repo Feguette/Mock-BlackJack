@@ -48,118 +48,123 @@ public class Blackjack extends JPanel
             contain.add(clickHit);
             contain.add(clickStay);
             contain.add(clickDouble);
-    gameLoop:while (igiveup)
-    {
-    if (bj.getPlayer().getPortion(i).checkSplit())
-    {
-        clickSplit.setBounds(300,0,100,100);
-        contain.add(clickSplit);
-    }
-    contain.add(clickRQ);
-    frame.setVisible(true);
-    
-    Hand current = bj.getPlayer().getPortion(i);
-    bj.repaint();
-    
-    class HitListener implements ActionListener
-    {
-        public void actionPerformed(ActionEvent event)
+    gameLoop:while (opCont)
         {
-            current.addCard(bj.getDeck().draw());
-            bj.repaint();
+            int comWin = 0;
+            playerLoop:for (int i = 0; i < noob.getBulk().size(); i ++) //Stores objects of bulk storage onto Hand current. alternate does not work since index is needed for split
+            {
+                Hand current = noob.getPortion(i);
+                handLoop:while (noobCont)
+                {
+                    int choice = -1;
+                    if (current.getTotal() >= 21)
+                    {
+                        break handLoop;
+                    }
+                    if (current.checkSplit())
+                    {
+                        contain.add(clickSplit);
+                    }
+                    class HitListener implements ActionListener
+                    {
+                        public void actionPerformed(ActionEvent event)
+                        {
+                            choice = 2;
+                        }
+                    }        
+                    ActionListener hitListener = new HitListener();
+                    clickHit.addActionListener(hitListener);                
+                    class StayListener implements ActionListener
+                    {
+                        public void actionPerformed(ActionEvent event)
+                        {
+                            choice = 1;
+                        }
+                    }        
+                    ActionListener stayListener = new StayListener();
+                    clickHit.addActionListener(stayListener);
+                    class DoubleListener implements ActionListener
+                    {
+                        public void actionPerformed(ActionEvent event)
+                        {
+                            choice = 3;
+                        }
+                    }        
+                    ActionListener doubleListener = new DoubleListener();
+                    clickHit.addActionListener(doubleListener);        
+                    class SplitListener implements ActionListener
+                    {
+                        public void actionPerformed(ActionEvent event)
+                        {
+                            choice = 4;
+                        }
+                    } 
+                    ActionListener splitListener = new SplitListener();
+                    clickHit.addActionListener(splitListener);
+                    class RQListener implements ActionListener
+                    {
+                        public void actionPerformed(ActionEvent event)
+                        {
+                            choice = 0;
+                        }
+                    }
+                    ActionListener rqListener = new RQListener();
+                    clickRQ.addActionListener(rqListener);
+                    if (choice == 0)
+                    {
+                        break gameLoop;
+                    }
+                    
+                    if (choice == 4 && current.checkSplit()) // checks if option 4 is chosen and checks if 1 pair
+                    {
+                        noob.split(i, heap.draw(), heap.draw());
+                    }
+                    
+                    if (choice == 1 || choice == 3)
+                    {
+                        noobCont = false;
+                    }
+                    
+                    if (choice == 2 || choice == 3)
+                    {
+                        current.addCard(heap.draw());
+                    }
+                }
+                noobCont = true;
+            }
+            
+            dealerLoop:while (proCont)
+            {
+                Hand opFor = pro.getPortion(0);
+                Hand current = noob.getPortion(0);
+                if (!dealerAutoWin(noob))
+                {
+                    while (opFor.getTotal() < 17)
+                    {
+                        opFor.addCard(heap.draw());
+                    }
+                }
+                
+                for (int i = 0; i < noob.getBulk().size(); i ++) //Stores objects of bulk storage onto Hand current. alternate does not work since index is needed for split
+                {
+                    
+                    current = noob.getPortion(i);
+                    comWin = compareWin(current, opFor);
+                    
+                }
+                break dealerLoop;
+            }
+            for (Hand clearing: noob.getBulk())
+            {
+                heap.returnCards(clearing.getHand());
+            }
+            heap.returnCards(pro.getPortion(0).getHand());
+            pro.clearBulk();
+            noob.clearBulk();
+            pro.addBulk(heap.draw(), heap.draw());
+            noob.addBulk(heap.draw(), heap.draw());
         }
-    }
-    
-    ActionListener hitListener = new HitListener();
-    clickHit.addActionListener(hitListener);
-    
-    
-    class StayListener implements ActionListener
-    {
-        public void actionPerformed(ActionEvent event)
-        {
-        
-            bj.repaint();
-        }
-    }
-    
-    ActionListener stayListener = new StayListener();
-    clickHit.addActionListener(stayListener);
-    
-    
-    class DoubleListener implements ActionListener
-    {
-        public void actionPerformed(ActionEvent event)
-        {
-            current.addCard(bj.getDeck().draw());
-            bj.repaint();
-        }
-    }
-    
-    ActionListener doubleListener = new DoubleListener();
-    clickHit.addActionListener(doubleListener);
-    
-    
-    class SplitListener implements ActionListener
-    {
-        public void actionPerformed(ActionEvent event)
-        {
-            bj.getPlayer().split(i, bj.getDeck().draw(), bj.getDeck().draw());
-            bj.repaint();
-        }
-    }
-    
-    ActionListener splitListener = new SplitListener();
-    clickHit.addActionListener(splitListener);
-    
-    class RQListener implements ActionListener
-    {
-        public void actionPerformed(ActionEvent event)
-        {
-        
-        }
-    }
-    
-    ActionListener rqListener = new RQListener();
-    clickRQ.addActionListener(rqListener);
-    
-    boolean proCont = true;
-    dealerLoop:while (proCont)
-    {
-        Hand opFor = bj.getDealer().getPortion(0);
-        current = bj.getPlayer().getPortion(0);
-        
-        
-        if (!dealerAutoWin(bj.getPlayer()))
-        {
-        while (opFor.getTotal() < 17)
-        {
-        opFor.addCard(bj.getDeck().draw());
-        }
-        }
-        
-        
-        for (int i = 0; i < noob.getBulk().size(); i ++)
-        {
-        
-            current = noob.getPortion(i);
-            comWin = compareWin(current, opFor);
-        
-        }
-        break dealerLoop;
-        }
-        for (Hand clearing: noob.getBulk())
-        {
-            heap.returnCards(clearing.getHand());
-        }
-    heap.returnCards(pro.getPortion(0).getHand());
-    pro.clearBulk();
-    noob.clearBulk();
-    pro.addBulk(heap.draw(), heap.draw());
-    noob.addBulk(heap.draw(), heap.draw());
-        
-    } 
-}
+    }    
     
     public static void display(Hand pack)
     {
