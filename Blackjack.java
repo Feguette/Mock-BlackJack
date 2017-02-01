@@ -47,22 +47,24 @@ public class Blackjack extends JPanel
         contain.add(clickStay);
         contain.add(clickDouble);
         contain.add(clickRQ);
-        for (int i = 0; i < bj.getPlayer().getBulk().size(); i ++)
+        gameLoop:for (int i = 0; i < bj.getPlayer().getBulk().size(); i ++)
         {
         if (bj.getPlayer().getPortion(i).checkSplit())
         {
         clickSplit.setBounds(300,0,100,100);
-        frame.add(clickSplit);
+        contain.add(clickSplit);
         }
         frame.setVisible(true);
         
+        Hand current = noob.getPortion(i);
         bj.repaint();
         
         class HitListener implements ActionListener
         {
             public void actionPerformed(ActionEvent event)
             {
-                
+                current.addCard(heap.draw());
+                bj.repaint();
             }
         }
         
@@ -75,6 +77,7 @@ public class Blackjack extends JPanel
             public void actionPerformed(ActionEvent event)
             {
                 
+                bj.repaint();
             }
         }
         
@@ -86,7 +89,8 @@ public class Blackjack extends JPanel
         {
             public void actionPerformed(ActionEvent event)
             {
-                
+                current.addCard(heap.draw());
+                bj.repaint();
             }
         }
         
@@ -98,7 +102,8 @@ public class Blackjack extends JPanel
         {
             public void actionPerformed(ActionEvent event)
             {
-                
+                noob.split(i, heap.draw(), heap.draw());
+                bj.repaint();
             }
         }
         
@@ -109,13 +114,50 @@ public class Blackjack extends JPanel
         {
             public void actionPerformed(ActionEvent event)
             {
-                
+                break gameLoop;
             }
         }
         
         ActionListener rqListener = new RQListener();
         clickRQ.addActionListener(rqListener);
         }
+        dealerLoop:while (proCont)
+            {
+                Hand opFor = pro.getPortion(0);
+                Hand current = noob.getPortion(0);
+                    
+                
+                display(opFor); //
+        if (!dealerAutoWin(noob))
+                {
+                    while (opFor.getTotal() < 17)
+                    {
+                        opFor.addCard(heap.draw());
+                    }
+        }
+                
+                display(opFor); //
+ 
+                for (int i = 0; i < noob.getBulk().size(); i ++)
+                {
+                    
+                    current = noob.getPortion(i);
+                    comWin = compareWin(current, opFor);
+                    display(current); //
+                    display(pro.getPortion(0)); //
+                }
+                break dealerLoop;
+            }
+        for (Hand clearing: noob.getBulk())
+        {
+           heap.returnCards(clearing.getHand());
+        }
+        heap.returnCards(pro.getPortion(0).getHand());
+        pro.clearBulk();
+        noob.clearBulk();
+        pro.addBulk(heap.draw(), heap.draw());
+        noob.addBulk(heap.draw(), heap.draw());
+        
    } 
    
    public Player getPlayer()
