@@ -22,6 +22,7 @@ public class Blackjack extends JPanel
    private Dealer pro = new Dealer(heap.draw(), heap.draw());
    private ArrayList<BufferedImage> album;
    private int yComponent = 100;
+   private int choice;
    public static void main(String []args)
    {
         JFrame frame = new JFrame("Blackjack");
@@ -56,14 +57,14 @@ public class Blackjack extends JPanel
         }
         frame.setVisible(true);
         
-        Hand current = noob.getPortion(i);
+        Hand current = bj.getPlayer().getPortion(i);
         bj.repaint();
         
         class HitListener implements ActionListener
         {
             public void actionPerformed(ActionEvent event)
             {
-                current.addCard(heap.draw());
+                current.addCard(bj.getDeck().draw());
                 bj.repaint();
             }
         }
@@ -89,7 +90,7 @@ public class Blackjack extends JPanel
         {
             public void actionPerformed(ActionEvent event)
             {
-                current.addCard(heap.draw());
+                current.addCard(bj.getDeck().draw());
                 bj.repaint();
             }
         }
@@ -102,7 +103,7 @@ public class Blackjack extends JPanel
         {
             public void actionPerformed(ActionEvent event)
             {
-                noob.split(i, heap.draw(), heap.draw());
+                bj.getPlayer().split(i, bj.getDeck().draw(), bj.getDeck().draw());
                 bj.repaint();
             }
         }
@@ -120,7 +121,7 @@ public class Blackjack extends JPanel
         
         ActionListener rqListener = new RQListener();
         clickRQ.addActionListener(rqListener);
-        }
+        
         dealerLoop:while (proCont)
             {
                 Hand opFor = pro.getPortion(0);
@@ -158,8 +159,9 @@ public class Blackjack extends JPanel
         pro.addBulk(heap.draw(), heap.draw());
         noob.addBulk(heap.draw(), heap.draw());
         
-   } 
-   
+       } 
+    }
+
    public Player getPlayer()
    {
        return noob;
