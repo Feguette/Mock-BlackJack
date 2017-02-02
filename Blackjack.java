@@ -281,54 +281,54 @@ public class Blackjack extends JPanel
     {
         Graphics2D g2 = (Graphics2D)g;
         if (check)
-    {
-        while (noobCont)
         {
-            for (int i = 0; i < noob.getBulk().size(); i++)
+            while (noobCont)
             {
-                for (int j = 0;  j < noob.getBulk().get(i).getHand().size(); j++)
+                for (int i = 0; i < noob.getBulk().size(); i++)
                 {
-                    xComponent = j*100;
-                    yComponent = i*cardHeight;
-                    g2.drawImage(noob.getBulk().get(i).getHand().get(j).getImage(), xComponent, yComponent, null);
+                    for (int j = 0;  j < noob.getBulk().get(i).getHand().size(); j++)
+                    {
+                        xComponent = j*100;
+                        yComponent = i*cardHeight;
+                        g2.drawImage(noob.getBulk().get(i).getHand().get(j).getImage(), xComponent, yComponent, null);
+                    }
                 }
             }
-        }
-        while (proCont)
-        {
-            for (int i = 0; i < pro.getBulk().size(); i++)
+            while (proCont)
             {
-                for (int j = 1;  j < pro.getBulk().get(i).getHand().size(); j++)
+                for (int i = 0; i < pro.getBulk().size(); i++)
                 {
-                    xComponent = j*100;
-                    yComponent = cardHeight;
-                    if (j==1)
+                    for (int j = 1;  j < pro.getBulk().get(i).getHand().size(); j++)
                     {
-                        try {
-                            String name = "BACK.jpg";
-                            image = ImageIO.read(new File(name));
-                        }
-                        catch (Exception e)
+                        xComponent = j*100;
+                        yComponent = cardHeight;
+                        if (j==1)
                         {
-                            
+                            try {
+                                String name = "BACK.jpg";
+                                image = ImageIO.read(new File(name));
+                            }
+                            catch (Exception e)
+                            {
+                                
+                            }
+                            g2.drawImage(image, xComponent, yComponent, null);
                         }
-                        g2.drawImage(image, xComponent, yComponent, null);
-                    }
-                    else
-                    {
-                        g2.drawImage(pro.getBulk().get(i).getHand().get(j).getImage(), xComponent, yComponent, null);
+                        else
+                        {
+                            g2.drawImage(pro.getBulk().get(i).getHand().get(j).getImage(), xComponent, yComponent, null);
+                        }
                     }
                 }
             }
+            while (proCont == false)
+            {
+                g2.drawImage(pro.getBulk().get(0).getHand().get(0).getImage(), 0, cardHeight, null);
+            }
         }
-        while (proCont == false)
+        else
         {
-            g2.drawImage(pro.getBulk().get(0).getHand().get(0).getImage(), 0, cardHeight, null);
+            //g2.drawString("");
         }
-    }
-    else
-    {
-        //g2.drawString("");
-    }
     }
 }
