@@ -22,7 +22,7 @@ public class Blackjack extends JPanel
     private Player noob;
     private Dealer pro;
     private static int choice;
-    private int cardHeight = 200; //Initialize when card height is known
+    private int cardHeight = 100; //Initialize when card height is known
     private static int index = 0;
     
     public Blackjack()
@@ -80,12 +80,12 @@ public class Blackjack extends JPanel
                     if (!(index + 1< bj.getPlayer().getBulk().size()))
                     {
                         bj.endTurn();
-                        System.out.print(index);
+                        
                         index = -1;
                     }
                     index ++;
                 }
-                System.out.print(index);
+                System.out.println("Hit: " + index);
                 
                 if (bj.getPlayer().getPortion(index).checkSplit())
                 {
@@ -110,7 +110,7 @@ public class Blackjack extends JPanel
                     index = -1;
                 }
                 index ++;
-                System.out.print(index);
+                System.out.println("Stay: " + index);
                 if (bj.getPlayer().getPortion(index).checkSplit())
                 {
                     bj.add(clickSplit);
@@ -136,7 +136,7 @@ public class Blackjack extends JPanel
                     index = -1;
                 }
                 index ++;
-                System.out.print(index);
+                System.out.println("Double: " + index);
                 if (bj.getPlayer().getPortion(index).checkSplit())
                 {
                     bj.add(clickSplit);
@@ -155,7 +155,7 @@ public class Blackjack extends JPanel
             public void actionPerformed(ActionEvent event)
             {
                 bj.getPlayer().split(index, bj.getDeck().draw(), bj.getDeck().draw());
-                System.out.print(index);
+                System.out.println("Split: " + index);
                 if (bj.getPlayer().getPortion(index).checkSplit())
                 {
                     bj.add(clickSplit);
@@ -313,20 +313,16 @@ public class Blackjack extends JPanel
         int xComponent, yComponent = 0;
         Graphics2D g2 = (Graphics2D)g;
         for (int i = 0; i < noob.getBulk().size(); i++)
-                {
-                    for (int j = 0;  j < noob.getBulk().get(i).getHand().size(); j++)
-                    {
-                        xComponent = j*100;
-                        yComponent = cardHeight;
-                        g2.drawImage(noob.getPortion(i).getCard(j).getImage(), xComponent, yComponent, null);
-                    }
-                }
+        {
+            for (int j = 0;  j < noob.getBulk().get(i).getHand().size(); j++)
+            {
+                g2.drawImage(noob.getPortion(i).getCard(j).getImage(), j*25+400, i*cardHeight + 100, null);
+            }
+        }
         for (int i = 0; i < pro.getBulk().size(); i++)
         {
             for (int j = 0;  j < pro.getBulk().get(i).getHand().size(); j++)
             {
-                xComponent = j*100;
-                yComponent = 3*cardHeight;
                 if (j==0)
                 {
                     try {
@@ -337,16 +333,18 @@ public class Blackjack extends JPanel
                     {
                         System.out.print("We have a problem");
                     }
-                    g2.drawImage(image, xComponent, yComponent, null);
+                    g2.drawImage(pro.getBulk().get(0).getHand().get(0).getImage(), j+25, i*cardHeight + 100, null);
+
+                    g2.drawImage(image, j*25, i*cardHeight + 100, null);
                 }
                 else
                 {
-                    g2.drawImage(pro.getPortion(i).getCard(j).getImage(), xComponent, yComponent, null);
+                    g2.drawImage(pro.getPortion(i).getCard(j).getImage(), j*25, i*cardHeight + 100, null);
                 }
             }
         }
 
-            g2.drawImage(pro.getBulk().get(0).getHand().get(0).getImage(), 0, cardHeight, null);
-
+            
 
     }
+}
