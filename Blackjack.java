@@ -275,6 +275,8 @@ public class Blackjack extends JPanel
     public void paintComponent(Graphics g)
     {
         Graphics2D g2 = (Graphics2D)g;
+        if (check)
+    {
         while (noobCont)
         {
             for (int i = 0; i < noob.getBulk().size(); i++)
@@ -314,5 +316,14 @@ public class Blackjack extends JPanel
                 }
             }
         }
+        while (proCont == false)
+        {
+            g2.drawImage(pro.getBulk().get(0).getHand().get(0).getImage(), 0, cardHeight, null);
+        }
+    }
+    else
+    {
+        //g2.drawString("");
+    }
     }
 }
