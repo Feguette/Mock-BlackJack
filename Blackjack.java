@@ -60,8 +60,14 @@ public class Blackjack extends JPanel
         bj.add(clickStay);
         bj.add(clickDouble);
         bj.add(clickRQ);
-        
-        
+        if (bj.getPlayer().getPortion(0).checkSplit())
+        {
+            bj.add(clickSplit);
+        }
+        else
+        {
+            bj.remove(clickSplit);
+        }
         frame.setVisible(true);
         bj.repaint();
         class HitListener implements ActionListener
@@ -71,12 +77,23 @@ public class Blackjack extends JPanel
                 bj.getPlayer().draw(index, bj.getDeck().draw());
                 if (bj.getPlayer().getPortion(index).getTotal() >= 21)
                 {
-                    if (!(index < bj.getPlayer().getBulk().size()))
+                    if (!(index + 1< bj.getPlayer().getBulk().size()))
                     {
                         bj.endTurn();
+                        System.out.print(index);
                         index = -1;
                     }
                     index ++;
+                }
+                System.out.print(index);
+                
+                if (bj.getPlayer().getPortion(index).checkSplit())
+                {
+                    bj.add(clickSplit);
+                }
+                else
+                {
+                    bj.remove(clickSplit);
                 }
                 bj.repaint();
             }
@@ -87,12 +104,21 @@ public class Blackjack extends JPanel
         {
             public void actionPerformed(ActionEvent event)
             {
-                if (!(index < bj.getPlayer().getBulk().size()))
+                if (!(index + 1 < bj.getPlayer().getBulk().size()))
                 {
                     bj.endTurn();
                     index = -1;
                 }
                 index ++;
+                System.out.print(index);
+                if (bj.getPlayer().getPortion(index).checkSplit())
+                {
+                    bj.add(clickSplit);
+                }
+                else
+                {
+                    bj.remove(clickSplit);
+                }
                 bj.repaint();
             }
         }
@@ -104,7 +130,21 @@ public class Blackjack extends JPanel
             public void actionPerformed(ActionEvent event)
             {
                 bj.getPlayer().draw(index, bj.getDeck().draw());
-                bj.endTurn();
+                if (!(index + 1 < bj.getPlayer().getBulk().size()))
+                {
+                    bj.endTurn();
+                    index = -1;
+                }
+                index ++;
+                System.out.print(index);
+                if (bj.getPlayer().getPortion(index).checkSplit())
+                {
+                    bj.add(clickSplit);
+                }
+                else
+                {
+                    bj.remove(clickSplit);
+                }
                 bj.repaint();
             }
         }        
@@ -115,6 +155,15 @@ public class Blackjack extends JPanel
             public void actionPerformed(ActionEvent event)
             {
                 bj.getPlayer().split(index, bj.getDeck().draw(), bj.getDeck().draw());
+                System.out.print(index);
+                if (bj.getPlayer().getPortion(index).checkSplit())
+                {
+                    bj.add(clickSplit);
+                }
+                else
+                {
+                    bj.remove(clickSplit);
+                }
                 bj.repaint();
             }
         } 
@@ -268,13 +317,13 @@ public class Blackjack extends JPanel
                     for (int j = 0;  j < noob.getBulk().get(i).getHand().size(); j++)
                     {
                         xComponent = j*100;
-                        yComponent = (3+i)*cardHeight;
+                        yComponent = (3*i)*cardHeight;
                         g2.drawImage(noob.getPortion(i).getCard(j).getImage(), xComponent, yComponent, null);
                     }
                 }
         for (int i = 0; i < pro.getBulk().size(); i++)
         {
-            for (int j = 1;  j < pro.getBulk().get(i).getHand().size(); j++)
+            for (int j = 0;  j < pro.getBulk().get(i).getHand().size(); j++)
             {
                 xComponent = j*100;
                 yComponent = 3*cardHeight;
