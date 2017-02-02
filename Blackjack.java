@@ -16,7 +16,7 @@ import java.util.*;
 import java.util.Scanner;
 public class Blackjack extends JPanel
 {   
-    private final String[] text = {"Victory", "Tie", "Loss"};
+    private final String[] text = {"Victory", "Tie", "Defeat"};
     private BufferedImage image;
     private Deck heap;
     private Player noob;
@@ -74,6 +74,7 @@ public class Blackjack extends JPanel
         {
             public void actionPerformed(ActionEvent event)
             {
+                
                 bj.getPlayer().draw(index, bj.getDeck().draw());
                 if (bj.getPlayer().getPortion(index).getTotal() >= 21)
                 {
@@ -206,43 +207,6 @@ public class Blackjack extends JPanel
         noob.addBulk(heap.draw(), heap.draw());
     }
     
-    public static void display(Hand pack)
-    {
-        String[] suits = {"S", "C", "D", "H"};
-        ArrayList<Card> pile = pack.getHand();
-        for (int i = 0; i < pile.size(); i++)
-        {
-            Card current = pile.get(i);
-            System.out.print(current.getType());
-            System.out.print(suits[current.getSuit()]);
-            if (pile.size() > i + 1)
-                System.out.print(", ");
-        }
-        System.out.println(" = " + pack.getTotal());
-    }
-    
-    public static void displayHidden(Hand pack, int coordX, int coordY)
-    {
-        String[] suits = {"S", "C", "D", "H"};
-        ArrayList<Card> pile = pack.getHand();
-        for (int i = 0; i < pile.size(); i++)
-        {
-            Card current = pile.get(i);
-            if (i > 0)
-            {
-                System.out.print(current.getType());
-                System.out.print(suits[current.getSuit()]);
-            }
-            else
-            {
-                System.out.print("UU");
-            }
-            if (pile.size() > i + 1)
-                System.out.print(", ");
-        }
-        System.out.println("");
-    }
-    
     public static boolean dealerAutoWin(Player noob) //checks if all hands of player goes over 21.
     {
         for (int i = 0; i < noob.getBulk().size(); i ++) //Stores objects of bulk storage onto Hand current. alternate does not work since index is needed for split
@@ -310,8 +274,10 @@ public class Blackjack extends JPanel
 
     public void paintComponent(Graphics g)
     {
+       
         int xComponent, yComponent = 0;
         Graphics2D g2 = (Graphics2D)g;
+         g2.fillRect(0,0,1000,1000);
         for (int i = 0; i < noob.getBulk().size(); i++)
         {
             for (int j = 0;  j < noob.getBulk().get(i).getHand().size(); j++)
