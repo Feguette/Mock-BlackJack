@@ -16,7 +16,7 @@ import java.util.*;
 import java.util.Scanner;
 public class Blackjack extends JPanel
 {   
-    private final String[] text = {"Loss", "Tie", "Victory"};
+    private final String[] text = {"Victory", "Tie", "Loss"};
     private BufferedImage image;
     private Deck heap;
     private Player noob;
@@ -158,7 +158,6 @@ public class Blackjack extends JPanel
             public void actionPerformed(ActionEvent event)
             {
                 bj.getPlayer().split(index, bj.getDeck().draw(), bj.getDeck().draw());
-                System.out.println("Split: " + index);
                 if (bj.getPlayer().getPortion(index).checkSplit())
                 {
                     bj.add(clickSplit);
@@ -320,10 +319,6 @@ public class Blackjack extends JPanel
             g2.drawString(text[comWin], 800, cardHeight);
             cont = false;
             clear();
-        }
-        else
-        {
-            g2.drawRect(800,0,200,1000);
         }
     }
 }
