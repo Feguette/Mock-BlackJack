@@ -49,6 +49,7 @@ public class Blackjack extends JPanel
         contain.add(clickHit);
         contain.add(clickStay);
         contain.add(clickDouble);
+        frame.setVisible(true);
         gameLoop:while (opCont)
         {
             int comWin = 0;
