@@ -317,7 +317,7 @@ public class Blackjack extends JPanel
                     for (int j = 0;  j < noob.getBulk().get(i).getHand().size(); j++)
                     {
                         xComponent = j*100;
-                        yComponent = (3*i)*cardHeight;
+                        yComponent = cardHeight;
                         g2.drawImage(noob.getPortion(i).getCard(j).getImage(), xComponent, yComponent, null);
                     }
                 }
@@ -327,7 +327,7 @@ public class Blackjack extends JPanel
             {
                 xComponent = j*100;
                 yComponent = 3*cardHeight;
-                if (j==1)
+                if (j==0)
                 {
                     try {
                         String name = "BACK.jpg";
@@ -350,4 +350,3 @@ public class Blackjack extends JPanel
 
 
     }
-}
