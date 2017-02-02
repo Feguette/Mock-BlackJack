@@ -27,7 +27,7 @@ public class Blackjack extends JPanel
     private static boolean noobCont = true;
     private static boolean proCont = true;
     private BufferedImage image;
-    private static boolean check = true;
+    private boolean check = true;
     
     public Blackjack()
     {
@@ -60,32 +60,24 @@ public class Blackjack extends JPanel
         contain.add(clickStay);
         contain.add(clickDouble);
         contain.add(clickRQ);
+        int comWin = 0;
+        int currint = 0;
+        Hand current = bj.getPlayer().getPortion(currint);
+        if (current.checkSplit())
+        {
+            contain.add(clickSplit);
+        }
         frame.setVisible(true);
         bj.repaint();
-        gameLoop:while (opCont)
-        {
-            int comWin = 0;
-            playerLoop:for (int i = 0; i < bj.getPlayer().getBulk().size(); i ++) //Stores objects of bulk storage onto Hand current. alternate does not work since index is needed for split
-            {
-                Hand current = bj.getPlayer().getPortion(i);
-                handLoop:while (noobCont)
-                {
-                    if (current.getTotal() >= 21)
-                    {
-                        break handLoop;
-                    }
-                    if (current.checkSplit())
-                    {
-                        contain.add(clickSplit);
-                    }
+        
                     class HitListener implements ActionListener
                     {
                         public void actionPerformed(ActionEvent event)
                         {
                             choice = 2;
-                            //System.out.print("hi");
+                            current.addCard(bj.getDeck().draw());
                             System.out.println("Hit");
-                            bj.repaint();
+                            bj.checkBust(current);
                         }
                     }        
                     ActionListener hitListener = new HitListener();
@@ -95,6 +87,7 @@ public class Blackjack extends JPanel
                         public void actionPerformed(ActionEvent event)
                         {
                             choice = 1;
+                            bj.turnEnded();
                             System.out.println("Stay");
                             bj.repaint();
                         }
@@ -106,7 +99,9 @@ public class Blackjack extends JPanel
                         public void actionPerformed(ActionEvent event)
                         {
                             choice = 3;
+                            current.addCard(bj.getDeck().draw());
                             System.out.println("Double");
+                            bj.checkBust(current);
                             bj.repaint();
                         }
                     }        
@@ -117,6 +112,7 @@ public class Blackjack extends JPanel
                         public void actionPerformed(ActionEvent event)
                         {
                             choice = 4;
+                            bj.getPlayer().split(currint, bj.getDeck().draw(), bj.getDeck().draw());
                             System.out.println("Split");
                             bj.repaint();
                         }
@@ -128,68 +124,69 @@ public class Blackjack extends JPanel
                         public void actionPerformed(ActionEvent event)
                         {
                             choice = 0;
+                            bj.redo();
                             System.out.println("RAGE");
                         }
                     }
                     ActionListener rqListener = new RQListener();
                     clickRQ.addActionListener(rqListener);
-                    if (choice == 0)
-                    {
-                        break gameLoop;
-                    }
-                    
-                    if (choice == 4 && current.checkSplit()) // checks if option 4 is chosen and checks if 1 pair
-                    {
-                        bj.getPlayer().split(i, bj.getDeck().draw(), bj.getDeck().draw());
-                    }
-                    
-                    if (choice == 1 || choice == 3)
-                    {
-                        noobCont = false;
-                    }
-                    
-                    if (choice == 2 || choice == 3)
-                    {
-                        current.addCard(bj.getDeck().draw());
-                    }
-                    System.out.print("no");
-                }
-                noobCont = true;
-            }
-            
-            dealerLoop:while (proCont)
+
+                    noobCont = true;
+    }
+                 
+    public boolean checkBust(Hand current)
+    {
+        if (current.getTotal() >= 21)
+        {
+            return true;
+        }
+        else
+            return false;
+    }
+        
+    public void redo()
+    {
+        heap = new Deck();
+        noob = new Player(500, heap.draw(), heap.draw());
+        pro = new Dealer(heap.draw(), heap.draw());
+    }
+
+    
+    public void turnEnded()
+    {            
+        int comWin = 0;
+        dealerLoop:while (proCont)
             {
-                Hand opFor = bj.getDealer().getPortion(0);
-                Hand current = bj.getPlayer().getPortion(0);
-                if (!dealerAutoWin(bj.getPlayer()))
+                Hand opFor = pro.getPortion(0);
+                Hand current = noob.getPortion(0);
+                if (!dealerAutoWin(noob))
                 {
                     while (opFor.getTotal() < 17)
                     {
-                        opFor.addCard(bj.getDeck().draw());
+                        opFor.addCard(heap.draw());
                     }
                 }
                 
-                for (int i = 0; i < bj.getPlayer().getBulk().size(); i ++) //Stores objects of bulk storage onto Hand current. alternate does not work since index is needed for split
+                for (int i = 0; i < noob.getBulk().size(); i ++) //Stores objects of bulk storage onto Hand current. alternate does not work since index is needed for split
                 {
                     
-                    current = bj.getPlayer().getPortion(i);
+                    current = noob.getPortion(i);
                     comWin = compareWin(current, opFor);
                     
                 }
                 break dealerLoop;
             }
-            for (Hand clearing: bj.getPlayer().getBulk())
+            for (Hand clearing: noob.getBulk())
             {
-                bj.getDeck().returnCards(clearing.getHand());
+                heap.returnCards(clearing.getHand());
             }
-            bj.getDeck().returnCards(bj.getDealer().getPortion(0).getHand());
-            bj.getDealer().clearBulk();
-            bj.getPlayer().clearBulk();
-            bj.getDealer().addBulk(bj.getDeck().draw(), bj.getDeck().draw());
-            bj.getPlayer().addBulk(bj.getDeck().draw(), bj.getDeck().draw());
-        }
-    }    
-        
+            heap.returnCards(pro.getPortion(0).getHand());
+            pro.clearBulk();
+            noob.clearBulk();
+            noob.addBulk(heap.draw(), heap.draw());
+            noob.addBulk(heap.draw(), heap.draw());
+    }
+    
     public static void display(Hand pack)
     {
         String[] suits = {"S", "C", "D", "H"};
@@ -295,10 +292,6 @@ public class Blackjack extends JPanel
     public void paintComponent(Graphics g)
     {
         Graphics2D g2 = (Graphics2D)g;
-        if (check)
-        {
-            while (noobCont)
-            {
                 for (int i = 0; i < noob.getBulk().size(); i++)
                 {
                     for (int j = 0;  j < noob.getBulk().get(i).getHand().size(); j++)
@@ -308,9 +301,6 @@ public class Blackjack extends JPanel
                         g2.drawImage(noob.getBulk().get(i).getHand().get(j).getImage(), xComponent, yComponent, null);
                     }
                 }
-            }
-            while (proCont)
-            {
                 for (int i = 0; i < pro.getBulk().size(); i++)
                 {
                     for (int j = 1;  j < pro.getBulk().get(i).getHand().size(); j++)
@@ -325,7 +315,7 @@ public class Blackjack extends JPanel
                             }
                             catch (Exception e)
                             {
-                                
+                                System.out.print("We have a problem");
                             }
                             g2.drawImage(image, xComponent, yComponent, null);
                         }
@@ -335,15 +325,10 @@ public class Blackjack extends JPanel
                         }
                     }
                 }
-            }
-            while (proCont == false)
+
+            if (proCont == false)
             {
                 g2.drawImage(pro.getBulk().get(0).getHand().get(0).getImage(), 0, cardHeight, null);
             }
         }
-        else
-        {
-            //g2.drawString("");
-        }
     }
-}
