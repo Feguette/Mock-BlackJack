@@ -16,7 +16,7 @@ import java.util.*;
 import java.util.Scanner;
 public class Blackjack extends JPanel
 {   
-    private final String[] text = {"Victory", "Tie", "Loss"};
+    private final String[] text = {"Loss", "Tie", "Victory"};
     private BufferedImage image;
     private Deck heap;
     private Player noob;
@@ -71,7 +71,8 @@ public class Blackjack extends JPanel
         }
         if (bj.getPlayer().getPortion(index).getTotal() >= 21)
         {
-            
+            cont = false;
+            bj.repaint();
         }
         frame.setVisible(true);
         bj.repaint();
