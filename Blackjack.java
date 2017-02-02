@@ -59,6 +59,15 @@ public class Blackjack extends JPanel
         contain.add(clickRQ);
         
         
+        if (bj.getPlayer().getPortion(index).checkSplit())
+        {
+            contain.add(clickSplit);
+        }
+        else
+        {
+            contain.remove(clickSplit);
+        }
+        
         frame.setVisible(true);
         bj.repaint();
         class HitListener implements ActionListener
@@ -75,10 +84,18 @@ public class Blackjack extends JPanel
                     }
                     index ++;
                 }
+                
+                if (bj.getPlayer().getPortion(index).checkSplit())
+                {
+                    contain.add(clickSplit);
+                }
+                else
+                {
+                    contain.remove(clickSplit);
+                }
             }
         }        
-        ActionListener hitListener = new HitListener();
-        clickHit.addActionListener(hitListener);                
+                   
         class StayListener implements ActionListener
         {
             public void actionPerformed(ActionEvent event)
@@ -89,28 +106,60 @@ public class Blackjack extends JPanel
                     index = -1;
                 }
                 index ++;
+                if (bj.getPlayer().getPortion(index).checkSplit())
+                {
+                    contain.add(clickSplit);
+                }
+                else
+                {
+                    contain.remove(clickSplit);
+                }
             }
         }
-                
-        ActionListener stayListener = new StayListener();
-        clickStay.addActionListener(stayListener);
+             
         class DoubleListener implements ActionListener
         {
             public void actionPerformed(ActionEvent event)
             {
                 bj.getPlayer().draw(index, bj.getDeck().draw());
-                bj.endTurn();
+                if (!(index < bj.getPlayer().getBulk().size()))
+                {
+                    bj.endTurn();
+                    index = -1;
+                }
+                index ++;
+                if (bj.getPlayer().getPortion(index).checkSplit())
+                {
+                    contain.add(clickSplit);
+                }
+                else
+                {
+                    contain.remove(clickSplit);
+                }
             }
         }        
-        ActionListener doubleListener = new DoubleListener();
-        clickDouble.addActionListener(doubleListener);        
+              
         class SplitListener implements ActionListener
         {
             public void actionPerformed(ActionEvent event)
             {
                 bj.getPlayer().split(index, bj.getDeck().draw(), bj.getDeck().draw());
+                if (bj.getPlayer().getPortion(index).checkSplit())
+                {
+                    contain.add(clickSplit);
+                }
+                else
+                {
+                    contain.remove(clickSplit);
+                }
             }
         } 
+        ActionListener hitListener = new HitListener();
+        clickHit.addActionListener(hitListener);        
+        ActionListener stayListener = new StayListener();
+        clickStay.addActionListener(stayListener);
+        ActionListener doubleListener = new DoubleListener();
+        clickDouble.addActionListener(doubleListener);  
         ActionListener splitListener = new SplitListener();
         clickSplit.addActionListener(splitListener);
     }
