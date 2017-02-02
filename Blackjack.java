@@ -16,6 +16,8 @@ import java.util.*;
 import java.util.Scanner;
 public class Blackjack extends JPanel
 {   
+    private final String[] text = {"Victory", "Tie", "Loss"};
+    private BufferedImage image;
     private Deck heap;
     private Player noob;
     private Dealer pro;
@@ -32,6 +34,7 @@ public class Blackjack extends JPanel
     
     public static void main(String []args)
     {
+        Blackjack bj = new Blackjack();
         JFrame frame = new JFrame("Blackjack");
         JButton clickHit = new JButton("Hit");
         JButton clickStay = new JButton("Stay");
@@ -39,34 +42,25 @@ public class Blackjack extends JPanel
         JButton clickSplit = new JButton("Split");
         JButton clickRQ = new JButton("Rage Quit");
 
-        Container contain = frame.getContentPane();
-        contain.setLayout(new FlowLayout());
+        //Container contain = frame.getContentPane();
+        //contain.setLayout(new FlowLayout());
         frame.setSize(1000, 1000);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         
-        clickHit.setPreferredSize(new Dimension(100,100));
-        clickStay.setPreferredSize(new Dimension(100,100));
-        clickDouble.setPreferredSize(new Dimension(100,100));
-        clickSplit.setPreferredSize(new Dimension(100,100));
-        clickRQ.setPreferredSize(new Dimension(100,100));
+        //clickHit.setPreferredSize(new Dimension(100,100));
+        //clickStay.setPreferredSize(new Dimension(100,100));
+       // clickDouble.setPreferredSize(new Dimension(100,100));
+        //clickSplit.setPreferredSize(new Dimension(100,100));
+        //clickRQ.setPreferredSize(new Dimension(100,100));
         
         boolean opCont = true;
-        Blackjack bj = new Blackjack();
-        contain.add(bj);
-        contain.add(clickHit);
-        contain.add(clickStay);
-        contain.add(clickDouble);
-        contain.add(clickRQ);
+
+        frame.add(bj);
+        bj.add(clickHit);
+        bj.add(clickStay);
+        bj.add(clickDouble);
+        bj.add(clickRQ);
         
-        
-        if (bj.getPlayer().getPortion(index).checkSplit())
-        {
-            contain.add(clickSplit);
-        }
-        else
-        {
-            contain.remove(clickSplit);
-        }
         
         frame.setVisible(true);
         bj.repaint();
@@ -84,18 +78,11 @@ public class Blackjack extends JPanel
                     }
                     index ++;
                 }
-                
-                if (bj.getPlayer().getPortion(index).checkSplit())
-                {
-                    contain.add(clickSplit);
-                }
-                else
-                {
-                    contain.remove(clickSplit);
-                }
+                bj.repaint();
             }
         }        
-                   
+        ActionListener hitListener = new HitListener();
+        clickHit.addActionListener(hitListener);                
         class StayListener implements ActionListener
         {
             public void actionPerformed(ActionEvent event)
@@ -106,60 +93,31 @@ public class Blackjack extends JPanel
                     index = -1;
                 }
                 index ++;
-                if (bj.getPlayer().getPortion(index).checkSplit())
-                {
-                    contain.add(clickSplit);
-                }
-                else
-                {
-                    contain.remove(clickSplit);
-                }
+                bj.repaint();
             }
         }
-             
+                
+        ActionListener stayListener = new StayListener();
+        clickStay.addActionListener(stayListener);
         class DoubleListener implements ActionListener
         {
             public void actionPerformed(ActionEvent event)
             {
                 bj.getPlayer().draw(index, bj.getDeck().draw());
-                if (!(index < bj.getPlayer().getBulk().size()))
-                {
-                    bj.endTurn();
-                    index = -1;
-                }
-                index ++;
-                if (bj.getPlayer().getPortion(index).checkSplit())
-                {
-                    contain.add(clickSplit);
-                }
-                else
-                {
-                    contain.remove(clickSplit);
-                }
+                bj.endTurn();
+                bj.repaint();
             }
         }        
-              
+        ActionListener doubleListener = new DoubleListener();
+        clickDouble.addActionListener(doubleListener);        
         class SplitListener implements ActionListener
         {
             public void actionPerformed(ActionEvent event)
             {
                 bj.getPlayer().split(index, bj.getDeck().draw(), bj.getDeck().draw());
-                if (bj.getPlayer().getPortion(index).checkSplit())
-                {
-                    contain.add(clickSplit);
-                }
-                else
-                {
-                    contain.remove(clickSplit);
-                }
+                bj.repaint();
             }
         } 
-        ActionListener hitListener = new HitListener();
-        clickHit.addActionListener(hitListener);        
-        ActionListener stayListener = new StayListener();
-        clickStay.addActionListener(stayListener);
-        ActionListener doubleListener = new DoubleListener();
-        clickDouble.addActionListener(doubleListener);  
         ActionListener splitListener = new SplitListener();
         clickSplit.addActionListener(splitListener);
     }
@@ -305,6 +263,42 @@ public class Blackjack extends JPanel
     {
         int xComponent, yComponent = 0;
         Graphics2D g2 = (Graphics2D)g;
-        
+        for (int i = 0; i < noob.getBulk().size(); i++)
+                {
+                    for (int j = 0;  j < noob.getBulk().get(i).getHand().size(); j++)
+                    {
+                        xComponent = j*100;
+                        yComponent = (3+i)*cardHeight;
+                        g2.drawImage(noob.getPortion(i).getCard(j).getImage(), xComponent, yComponent, null);
+                    }
+                }
+        for (int i = 0; i < pro.getBulk().size(); i++)
+        {
+            for (int j = 1;  j < pro.getBulk().get(i).getHand().size(); j++)
+            {
+                xComponent = j*100;
+                yComponent = 3*cardHeight;
+                if (j==1)
+                {
+                    try {
+                        String name = "BACK.jpg";
+                        image = ImageIO.read(new File(name));
+                    }
+                    catch (Exception e)
+                    {
+                        System.out.print("We have a problem");
+                    }
+                    g2.drawImage(image, xComponent, yComponent, null);
+                }
+                else
+                {
+                    g2.drawImage(pro.getPortion(i).getCard(j).getImage(), xComponent, yComponent, null);
+                }
+            }
+        }
+
+            g2.drawImage(pro.getBulk().get(0).getHand().get(0).getImage(), 0, cardHeight, null);
+
+
     }
 }
