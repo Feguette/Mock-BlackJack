@@ -17,9 +17,9 @@ import java.util.Scanner;
 public class Blackjack extends JPanel
 {   
     private int xComponent = 0;
-    private Deck heap = new Deck();
-    private Player noob = new Player(500, heap.draw(), heap.draw());
-    private Dealer pro = new Dealer(heap.draw(), heap.draw());
+    private Deck heap;
+    private Player noob;
+    private Dealer pro;
     private ArrayList<BufferedImage> album;
     private int yComponent = 100;
     private static int choice;
@@ -28,6 +28,14 @@ public class Blackjack extends JPanel
     private static boolean proCont = true;
     private BufferedImage image;
     private static boolean check = true;
+    
+    public Blackjack()
+    {
+        heap = new Deck();
+        noob = new Player(500, heap.draw(), heap.draw());
+        pro = new Dealer(heap.draw(), heap.draw());
+    }
+    
     public static void main(String []args)
     {
         JFrame frame = new JFrame("Blackjack");
@@ -47,11 +55,13 @@ public class Blackjack extends JPanel
         clickRQ.setPreferredSize(new Dimension(100,100));
         boolean opCont = true;
         Blackjack bj = new Blackjack();
+        frame.add(bj);
         contain.add(clickHit);
         contain.add(clickStay);
         contain.add(clickDouble);
         contain.add(clickRQ);
         frame.setVisible(true);
+        bj.repaint();
         gameLoop:while (opCont)
         {
             int comWin = 0;
@@ -73,8 +83,8 @@ public class Blackjack extends JPanel
                         public void actionPerformed(ActionEvent event)
                         {
                             choice = 2;
-                            System.out.print("hi");
-                            System.out.print(choice);
+                            //System.out.print("hi");
+                            System.out.println("Hit");
                             bj.repaint();
                         }
                     }        
@@ -85,36 +95,40 @@ public class Blackjack extends JPanel
                         public void actionPerformed(ActionEvent event)
                         {
                             choice = 1;
+                            System.out.println("Stay");
                             bj.repaint();
                         }
                     }        
                     ActionListener stayListener = new StayListener();
-                    clickHit.addActionListener(stayListener);
+                    clickStay.addActionListener(stayListener);
                     class DoubleListener implements ActionListener
                     {
                         public void actionPerformed(ActionEvent event)
                         {
                             choice = 3;
+                            System.out.println("Double");
                             bj.repaint();
                         }
                     }        
                     ActionListener doubleListener = new DoubleListener();
-                    clickHit.addActionListener(doubleListener);        
+                    clickDouble.addActionListener(doubleListener);        
                     class SplitListener implements ActionListener
                     {
                         public void actionPerformed(ActionEvent event)
                         {
                             choice = 4;
+                            System.out.println("Split");
                             bj.repaint();
                         }
                     } 
                     ActionListener splitListener = new SplitListener();
-                    clickHit.addActionListener(splitListener);
+                    clickSplit.addActionListener(splitListener);
                     class RQListener implements ActionListener
                     {
                         public void actionPerformed(ActionEvent event)
                         {
                             choice = 0;
+                            System.out.println("RAGE");
                         }
                     }
                     ActionListener rqListener = new RQListener();
@@ -138,6 +152,7 @@ public class Blackjack extends JPanel
                     {
                         current.addCard(bj.getDeck().draw());
                     }
+                    System.out.print("no");
                 }
                 noobCont = true;
             }
@@ -276,7 +291,7 @@ public class Blackjack extends JPanel
     {
         return pro;
     }
-    
+
     public void paintComponent(Graphics g)
     {
         Graphics2D g2 = (Graphics2D)g;
