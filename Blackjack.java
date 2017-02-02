@@ -27,6 +27,7 @@ public class Blackjack extends JPanel
     private static boolean noobCont = true;
     private static boolean proCont = true;
     private BufferedImage image;
+    private static boolean check = true;
     public static void main(String []args)
     {
         JFrame frame = new JFrame("Blackjack");
@@ -49,6 +50,7 @@ public class Blackjack extends JPanel
         contain.add(clickHit);
         contain.add(clickStay);
         contain.add(clickDouble);
+        contain.add(clickRQ);
         frame.setVisible(true);
         gameLoop:while (opCont)
         {
@@ -71,6 +73,8 @@ public class Blackjack extends JPanel
                         public void actionPerformed(ActionEvent event)
                         {
                             choice = 2;
+                            System.out.print("hi");
+                            System.out.print(choice);
                             bj.repaint();
                         }
                     }        
